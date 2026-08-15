@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
 import { getSiteSettings } from '@/lib/getSiteSettings'
-import { EnvelopeSimple, MessageCircle, PaperPlaneTilt } from '@phosphor-icons/react/dist/ssr'
+import { ChatCircle, EnvelopeSimple, PaperPlaneTilt } from '@phosphor-icons/react/dist/ssr'
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -46,7 +46,7 @@ export default async function ContactPage() {
             <div className="space-y-5">
               <div className="rounded-3xl border border-[#dce9e5] bg-white p-6 shadow-[0_8px_35px_rgba(15,143,131,0.06)]">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e8f7f3] text-[#0f8f83]">
-                  <MessageCircle size={24} weight="duotone" />
+                  <ChatCircle size={24} weight="duotone" />
                 </div>
 
                 <h2 className="mt-5 text-xl font-bold text-[#172326]">
