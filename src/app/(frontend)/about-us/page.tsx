@@ -43,9 +43,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutUsPage() {
-  const siteSettings = (await getSiteSettings()) ?? {}
+  const siteSettings = (await getSiteSettings()) as {
+    siteName?: string
+    siteDescription?: string
+  } | null
 
-  const siteName = (siteSettings as any).siteName || 'Pakistan Finance'
+  const siteName = siteSettings?.siteName || 'Pakistan Finance'
 
   const siteDescription =
     (siteSettings as any).siteDescription ||

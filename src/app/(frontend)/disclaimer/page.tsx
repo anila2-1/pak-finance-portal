@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function DisclaimerPage() {
-  const siteSettings = (await getSiteSettings()) ?? {}
+  const siteSettings = (await getSiteSettings()) as { siteName?: string } | null
   const siteName = siteSettings?.siteName || 'Pakistan Finance'
 
   return (
