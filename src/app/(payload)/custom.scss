@@ -1,0 +1,1911 @@
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+/* Do NOT enable Tailwind preflight in Payload Admin */
+/* @import "tailwindcss/preflight.css" layer(base); */
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+
+/* =========================================================
+   PREMIUM PAYLOAD ADMIN
+   Exact spacing / alignment / typography
+   ========================================================= */
+
+:root {
+  --admin-primary: #635bff;
+  --admin-primary-hover: #554df0;
+
+  --admin-bg: #f0f2fc;
+  --admin-surface: #ffffff;
+  --admin-surface-soft: #fafbfc;
+  --admin-surface-hover: #f5f6fa;
+  --admin-surface-glass: rgba(255, 255, 255, 0.664);
+
+  --admin-text: #101828;
+  --admin-text-secondary: #475467;
+  --admin-text-muted: #98a2b3;
+
+  --admin-border: #b2c1db;
+  --admin-border-light: #eaecf0;
+  --admin-border-strong: #d0d5dd;
+
+  --admin-radius-sm: 7px;
+  --admin-radius-md: 10px;
+  --admin-radius-lg: 16px;
+
+  --admin-shadow-xs:
+    0 1px 2px rgba(16, 24, 40, 0.04);
+
+  --admin-shadow-sm:
+    0 4px 12px rgba(16, 24, 40, 0.05);
+
+  --admin-shadow-md:
+    0 12px 30px rgba(16, 24, 40, 0.07);
+
+  --admin-ring:
+    rgba(99, 91, 255, 0.16);
+
+  --admin-ease:
+    cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+html,
+body {
+  background: var(--admin-bg);
+  color: var(--admin-text);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   PAYLOAD MAIN AREA
+   ========================================================= */
+
+.template-default__wrap,
+.template-default__content,
+main {
+  background: var(--admin-bg);
+}
+
+
+/* =========================================================
+   IMPORTANT:
+   MAIN CONTENT WIDTH + GUTTER
+   ========================================================= */
+
+.collection-list {
+  width: 100%;
+}
+
+.collection-list__wrap {
+  width: 100%;
+}
+
+
+/*
+   Keep all major sections aligned to the same left edge.
+*/
+
+.collection-list__header,
+.list-controls,
+.collection-list__table,
+.pagination {
+  width: 100%;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.collection-list__header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin: 0 0 28px;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   USERS TITLE
+   ========================================================= */
+
+.collection-list__header h1 {
+  margin: 0;
+
+  color: var(--admin-text);
+
+  font-size: 34px;
+  line-height: 1.12;
+
+  font-weight: 700;
+
+  letter-spacing: -0.035em;
+}
+
+
+/* =========================================================
+   CREATE NEW
+   ========================================================= */
+
+.collection-list__header .btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  min-height: 48px;
+
+  margin: 0;
+
+  padding: 0 20px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  color: #ffffff;
+
+  background: var(--admin-primary);
+
+  font-size: 14px;
+
+  font-weight: 650;
+
+  box-shadow:
+    0 4px 10px rgba(99, 91, 255, 0.18);
+
+  transition:
+    transform 160ms var(--admin-ease),
+    background 180ms var(--admin-ease),
+    box-shadow 180ms var(--admin-ease);
+}
+
+.collection-list__header .btn:hover {
+  background: var(--admin-primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(99, 91, 255, 0.22);
+}
+
+.collection-list__header .btn:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   DESCRIPTION UNDER TITLE
+   ========================================================= */
+
+/*
+   If you add a description such as:
+   "Manage all system users"
+*/
+
+.collection-list__header p {
+  margin: 7px 0 0;
+
+  color: var(--admin-text-secondary);
+
+  font-size: 15px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SEARCH / FILTER TOOLBAR
+   ========================================================= */
+
+.list-controls {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 0 0 32px;
+
+  padding: 0;
+
+  background: transparent;
+}
+
+
+/* Search takes available width */
+
+.list-controls__search {
+  flex: 1 1 auto;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   SEARCH INPUT WRAPPER
+   ========================================================= */
+
+.search-input {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  min-height: 56px;
+
+  background: var(--admin-surface);
+
+  border: 1px solid var(--admin-border);
+
+  border-radius: 12px;
+
+  box-shadow: var(--admin-shadow-xs);
+
+  transition:
+    border-color 180ms var(--admin-ease),
+    box-shadow 180ms var(--admin-ease);
+}
+
+
+/*
+   IMPORTANT:
+   Make the icon occupy its own area.
+   This prevents it from sitting on top of the text.
+*/
+
+.search-input svg {
+  position: absolute;
+
+  left: 17px;
+
+  top: 50%;
+
+  width: 19px;
+  height: 19px;
+
+  margin: 0;
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+
+  color: #475467;
+}
+
+
+/* =========================================================
+   SEARCH INPUT ITSELF
+   ========================================================= */
+
+.search-input input,
+.list-controls input[type="search"],
+.list-controls input[type="text"] {
+  width: 100%;
+
+  height: 54px;
+
+  margin: 0;
+
+  padding: 0 18px 0 54px;
+
+  color: var(--admin-text);
+
+  background: transparent;
+
+  border: 0;
+
+  border-radius: 12px;
+
+  outline: none;
+
+  box-shadow: none;
+
+  font-size: 15px;
+
+  line-height: 1;
+}
+
+
+/* Remove browser/search styling */
+
+.search-input input::-webkit-search-cancel-button,
+.search-input input::-webkit-search-decoration {
+  appearance: none;
+}
+
+
+/* Placeholder */
+
+.search-input input::placeholder,
+.list-controls input::placeholder {
+  color: var(--admin-text-muted);
+
+  opacity: 1;
+}
+
+
+/* Focus */
+
+.search-input:focus-within {
+  border-color: var(--admin-primary);
+
+  box-shadow:
+    0 0 0 4px var(--admin-ring);
+}
+
+
+/* =========================================================
+   COLUMNS + FILTERS
+   ========================================================= */
+
+.list-controls > button,
+.list-controls .btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  height: 56px;
+  min-height: 56px;
+
+  padding: 0 18px;
+
+  background: var(--admin-surface);
+
+  color: var(--admin-text);
+
+  border: 1px solid var(--admin-border);
+
+  border-radius: 12px;
+
+  box-shadow: var(--admin-shadow-xs);
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  transition:
+    background 160ms var(--admin-ease),
+    border-color 160ms var(--admin-ease),
+    transform 160ms var(--admin-ease),
+    box-shadow 160ms var(--admin-ease);
+}
+
+.list-controls > button:hover,
+.list-controls .btn:hover {
+  background: var(--admin-surface-hover);
+
+  border-color: var(--admin-border-strong);
+
+  transform: translateY(-1px);
+
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.list-controls > button:active,
+.list-controls .btn:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+   ========================================================= */
+
+.collection-list__table {
+  overflow: hidden;
+
+  background: var(--admin-surface);
+
+  border: 1px solid var(--admin-border);
+
+  border-radius: 16px;
+
+  box-shadow: var(--admin-shadow-xs);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.collection-list__table .table {
+  width: 100%;
+
+  margin: 0;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  background: var(--admin-surface);
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.collection-list__table .table thead {
+  background: var(--admin-surface-soft);
+}
+
+
+/*
+   Exact vertical alignment.
+*/
+
+.collection-list__table .table th {
+  height: 64px;
+
+  padding: 0 20px;
+
+  vertical-align: middle;
+
+  color: var(--admin-text);
+
+  border-bottom: 1px solid var(--admin-border);
+
+  font-size: 13px;
+
+  line-height: 1;
+
+  font-weight: 650;
+
+  letter-spacing: 0;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.collection-list__table .table tbody tr {
+  height: 82px;
+
+  transition:
+    background 160ms var(--admin-ease);
+}
+
+
+/* =========================================================
+   TABLE CELLS
+   ========================================================= */
+
+.collection-list__table .table td {
+  height: 82px;
+
+  padding: 0 20px;
+
+  vertical-align: middle;
+
+  color: var(--admin-text-secondary);
+
+  background: var(--admin-surface);
+
+  border-bottom: 1px solid var(--admin-border-light);
+
+  font-size: 14px;
+
+  line-height: 1.4;
+
+  white-space: nowrap;
+}
+
+
+/* Last row */
+
+.collection-list__table .table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* Row hover */
+
+.collection-list__table .table tbody tr:hover td {
+  background: var(--admin-surface-hover);
+}
+
+
+/* =========================================================
+   CHECKBOX ALIGNMENT
+   ========================================================= */
+
+.collection-list__table input[type="checkbox"] {
+  display: block;
+
+  width: 20px;
+  height: 20px;
+
+  margin: 0 auto;
+
+  transform: none;
+
+  cursor: pointer;
+
+  accent-color: var(--admin-primary);
+}
+
+
+/* =========================================================
+   TABLE LINKS
+   ========================================================= */
+
+.collection-list__table .table td a {
+  color: #344054;
+
+  font-weight: 500;
+
+  text-decoration: underline;
+
+  text-decoration-color: rgba(52, 64, 84, 0.25);
+
+  text-underline-offset: 3px;
+
+  transition:
+    color 140ms var(--admin-ease),
+    text-decoration-color 140ms var(--admin-ease);
+}
+
+.collection-list__table .table td a:hover {
+  color: var(--admin-primary);
+
+  text-decoration-color: var(--admin-primary);
+}
+
+
+/* =========================================================
+   SORT ICONS
+   ========================================================= */
+
+/*
+   Keep sort arrows vertically centered with header text.
+*/
+
+.collection-list__table .table th button,
+.collection-list__table .table th [role="button"] {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  vertical-align: middle;
+
+  margin-left: 6px;
+}
+
+.collection-list__table .table th svg {
+  vertical-align: middle;
+}
+
+
+/* =========================================================
+   PAGINATION FOOTER
+   ========================================================= */
+
+.pagination {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 16px;
+
+  min-height: 92px;
+
+  margin: 0;
+
+  padding: 0 28px;
+
+  background: var(--admin-surface);
+
+  border-top: 1px solid var(--admin-border-light);
+}
+
+
+/* =========================================================
+   PAGE INFO
+   ========================================================= */
+
+.pagination__page-info {
+  display: flex;
+
+  align-items: center;
+
+  min-height: 40px;
+
+  color: var(--admin-text);
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   PER PAGE
+   ========================================================= */
+
+.pagination select,
+.pagination [role="combobox"],
+.pagination .select,
+[class*="page-size"] button,
+[class*="per-page"] button,
+[class*="pageSize"] button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  min-width: 190px;
+
+  height: 48px;
+  min-height: 48px;
+
+  padding: 0 16px;
+
+  color: var(--admin-text);
+
+  background: var(--admin-surface);
+
+  border: 1px solid var(--admin-border);
+
+  border-radius: 12px;
+
+  box-shadow: var(--admin-shadow-xs);
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  transition:
+    border-color 160ms var(--admin-ease),
+    box-shadow 160ms var(--admin-ease),
+    background 160ms var(--admin-ease);
+}
+
+.pagination select:hover,
+.pagination [role="combobox"]:hover,
+.pagination .select:hover,
+[class*="page-size"] button:hover,
+[class*="per-page"] button:hover,
+[class*="pageSize"] button:hover {
+  background: var(--admin-surface-hover);
+
+  border-color: var(--admin-border-strong);
+
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.pagination select:focus,
+.pagination [role="combobox"]:focus,
+.pagination .select:focus {
+  outline: none;
+
+  border-color: var(--admin-primary);
+
+  box-shadow:
+    0 0 0 4px var(--admin-ring);
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.nav {
+  background: var(--admin-surface);
+
+  border-right: 1px solid var(--admin-border);
+}
+
+.nav__wrap {
+  padding: 8px 10px;
+}
+
+.nav__link {
+  min-height: 36px;
+  font-size: 13px;
+  margin: 1px 0;
+  font-weight: 500;
+  padding: 0 10px;
+  border-radius: 8px;
+  
+  transition:
+    background 160ms var(--admin-ease),
+    color 160ms var(--admin-ease),
+    transform 160ms var(--admin-ease);
+}
+
+.nav__link:hover {
+  background: var(--admin-surface-hover);
+
+  transform: translateX(2px);
+}
+
+.nav__link.active {
+  color: var(--admin-primary);
+
+  background: rgba(99, 91, 255, 0.08);
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.app-header,
+.header {
+  background: var(--admin-surface-glass);
+  font-weight: 600;
+  border-bottom: 1px solid var(--admin-border);
+
+  backdrop-filter: blur(14px);
+
+  -webkit-backdrop-filter: blur(14px);
+}
+
+
+/* =========================================================
+   ALL FORM INPUTS
+   ========================================================= */
+
+.field-type input,
+.field-type textarea,
+.field-type select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+textarea,
+select {
+  color: var(--admin-text);
+
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border);
+
+  border-radius: 10px;
+
+  transition:
+    border-color 160ms var(--admin-ease),
+    box-shadow 160ms var(--admin-ease);
+}
+
+.field-type input:focus,
+.field-type textarea:focus,
+.field-type select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+
+  border-color: var(--admin-primary);
+
+  box-shadow:
+    0 0 0 4px var(--admin-ring);
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+[data-theme="dark"] {
+  --admin-primary: #827aff;
+  --admin-primary-hover: #938dff;
+
+  --admin-bg: #0b0d12;
+
+  --admin-surface: #12151c;
+  --admin-surface-soft: #151920;
+  --admin-surface-hover: #191d25;
+  --admin-surface-glass: rgba(18, 21, 28, 0.85);
+
+  --admin-text: #f2f4f7;
+  --admin-text-secondary: #b7beca;
+  --admin-text-muted: #737d8d;
+
+  --admin-border: #282e38;
+  --admin-border-light: #20252e;
+  --admin-border-strong: #39414d;
+
+  --admin-ring:
+    rgba(130, 122, 255, 0.20);
+}
+
+
+/* =========================================================
+   DARK MODE - SEARCH
+   ========================================================= */
+
+[data-theme="dark"] .search-input {
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border);
+}
+
+[data-theme="dark"] .search-input svg {
+  color: #98a2b3;
+}
+
+
+/* =========================================================
+   DARK MODE - TABLE
+   ========================================================= */
+
+[data-theme="dark"] .collection-list__table,
+[data-theme="dark"] .collection-list__table .table {
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border);
+}
+
+[data-theme="dark"] .collection-list__table .table thead {
+  background: var(--admin-surface-soft);
+}
+
+[data-theme="dark"] .collection-list__table .table th {
+  color: var(--admin-text);
+
+  border-color: var(--admin-border);
+}
+
+[data-theme="dark"] .collection-list__table .table td {
+  color: var(--admin-text-secondary);
+
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border-light);
+}
+
+[data-theme="dark"] .collection-list__table .table tbody tr:hover td {
+  background: var(--admin-surface-hover);
+}
+
+
+/* =========================================================
+   DARK MODE - LINKS
+   ========================================================= */
+
+[data-theme="dark"] .collection-list__table .table td a {
+  color: #d0d5dd;
+}
+
+[data-theme="dark"] .collection-list__table .table td a:hover {
+  color: var(--admin-primary);
+}
+
+
+/* =========================================================
+   DARK MODE - PAGINATION
+   ========================================================= */
+
+[data-theme="dark"] .pagination {
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border-light);
+}
+
+[data-theme="dark"] .pagination select,
+[data-theme="dark"] .pagination [role="combobox"],
+[data-theme="dark"] .pagination .select,
+[data-theme="dark"] [class*="page-size"] button,
+[data-theme="dark"] [class*="per-page"] button,
+[data-theme="dark"] [class*="pageSize"] button {
+  color: var(--admin-text);
+
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border);
+}
+
+
+/* =========================================================
+   DARK MODE - SIDEBAR
+   ========================================================= */
+
+[data-theme="dark"] .nav {
+  background: #101319;
+
+  border-color: var(--admin-border);
+}
+
+[data-theme="dark"] .nav__link:hover {
+  background: #191d25;
+}
+
+[data-theme="dark"] .nav__link.active {
+  background: rgba(130, 122, 255, 0.12);
+
+  color: var(--admin-primary);
+}
+
+
+/* =========================================================
+   BUTTON ANIMATIONS
+   ========================================================= */
+
+button,
+.btn {
+  transition:
+    transform 160ms var(--admin-ease),
+    background 180ms var(--admin-ease),
+    border-color 180ms var(--admin-ease),
+    box-shadow 180ms var(--admin-ease);
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   PAGE ANIMATION
+   ========================================================= */
+
+.collection-list {
+  animation: adminPageIn 240ms var(--admin-ease) both;
+}
+
+
+@keyframes adminPageIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   DROPDOWN ANIMATION
+   ========================================================= */
+
+.popup {
+  animation: popupIn 160ms var(--admin-ease) both;
+}
+
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-4px)
+      scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .collection-list__header {
+    gap: 18px;
+  }
+
+  .collection-list__header h1 {
+    font-size: 30px;
+  }
+
+  .list-controls {
+    flex-wrap: wrap;
+  }
+
+  .list-controls__search {
+    flex: 1 1 100%;
+  }
+
+  .list-controls > button,
+  .list-controls .btn {
+    flex: 1;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .collection-list__header {
+    flex-direction: column;
+  }
+
+  .collection-list__header .btn {
+    width: 100%;
+  }
+
+  .list-controls {
+    flex-direction: column;
+  }
+
+  .list-controls > button,
+  .list-controls .btn {
+    width: 100%;
+  }
+
+  .collection-list__table {
+    overflow-x: auto;
+  }
+
+  .collection-list__table .table {
+    min-width: 850px;
+  }
+
+  .pagination {
+    justify-content: space-between;
+
+    padding: 16px;
+  }
+
+  .pagination select,
+  .pagination [role="combobox"],
+  .pagination .select {
+    min-width: 150px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   DASHBOARD — COLLECTIONS
+   Premium Collection Cards
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   Dashboard main area
+   --------------------------------------------------------- */
+
+.dashboard {
+  background: var(--admin-bg);
+}
+
+.dashboard__wrap {
+  width: 100%;
+}
+
+
+/* ---------------------------------------------------------
+   Collections section
+   --------------------------------------------------------- */
+
+.dashboard .collections,
+.dashboard .dashboard__collections,
+.dashboard [class*="collections"] {
+  color: var(--admin-text);
+}
+
+
+/* Collections heading */
+
+.dashboard h1,
+.dashboard h2 {
+  color: var(--admin-text);
+}
+
+
+/* Hover title */
+
+.dashboard .card:hover h2,
+.dashboard .card:hover h3,
+.dashboard .collection-card:hover h2,
+.dashboard .collection-card:hover h3 {
+  color: var(--admin-primary);
+}
+
+
+/* ---------------------------------------------------------
+   Collection card description
+   --------------------------------------------------------- */
+
+.dashboard .card p,
+.dashboard .collection-card p,
+.dashboard [class*="collection-card"] p {
+  margin: 5px 0 0;
+
+  color: var(--admin-text-secondary);
+
+  font-size: 13px;
+
+  line-height: 1.45;
+}
+
+
+
+/* PLUS BUTTON */
+
+.dashboard .card button,
+.dashboard .collection-card button,
+.dashboard [class*="collection-card"] button {
+  width: 32px;
+  height: 32px;
+
+  min-width: 32px;
+  min-height: 32px;
+
+  margin-left: 14px;
+}
+
+
+/* Plus hover */
+
+.dashboard .card button:hover,
+.dashboard .collection-card button:hover,
+.dashboard [class*="collection-card"] button:hover {
+  color: #ffffff;
+
+  background: var(--admin-primary);
+
+  border-color: var(--admin-primary);
+
+  transform: rotate(90deg);
+
+  box-shadow:
+    0 5px 12px rgba(99, 91, 255, 0.22);
+}
+
+
+/* Plus click */
+
+.dashboard .card button:active,
+.dashboard .collection-card button:active {
+  transform: rotate(90deg) scale(0.94);
+}
+
+
+
+/* PLUS BUTTON */
+
+.dashboard .card button,
+.dashboard .collection-card button,
+.dashboard [class*="collection-card"] button {
+  width: 32px;
+  height: 32px;
+
+  min-width: 32px;
+  min-height: 32px;
+
+  margin-left: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   Dashboard page heading spacing
+   --------------------------------------------------------- */
+
+.dashboard .collection-list__header,
+.dashboard .dashboard__header {
+  margin-bottom: 24px;
+}
+
+
+/* ---------------------------------------------------------
+   Dashboard "Collections" heading
+   --------------------------------------------------------- */
+
+.dashboard .collection-list__header h1,
+.dashboard .dashboard__header h1 {
+  margin: 0;
+
+  color: var(--admin-text);
+
+  font-size: 28px;
+
+  line-height: 1.2;
+
+  font-weight: 650;
+
+  letter-spacing: -0.025em;
+}
+
+
+/* ---------------------------------------------------------
+   Empty / secondary text
+   --------------------------------------------------------- */
+
+.dashboard .card small,
+.dashboard .collection-card small {
+  color: var(--admin-text-muted);
+}
+
+
+/* ---------------------------------------------------------
+   DARK MODE — COLLECTION CARDS
+   --------------------------------------------------------- */
+
+[data-theme="dark"] .dashboard .card,
+[data-theme="dark"] .dashboard .collection-card,
+[data-theme="dark"] .dashboard [class*="collection-card"] {
+  background: var(--admin-surface);
+
+  border-color: var(--admin-border);
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.20);
+}
+
+
+[data-theme="dark"] .dashboard .card:hover,
+[data-theme="dark"] .dashboard .collection-card:hover,
+[data-theme="dark"] .dashboard [class*="collection-card"]:hover {
+  background: #171b23;
+
+  border-color: rgba(130, 122, 255, 0.38);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+
+/* ---------------------------------------------------------
+   DARK MODE — PLUS
+   --------------------------------------------------------- */
+
+[data-theme="dark"] .dashboard .card button,
+[data-theme="dark"] .dashboard .collection-card button,
+[data-theme="dark"] .dashboard [class*="collection-card"] button {
+  color: #aab2c0;
+
+  background: #191d25;
+
+  border-color: #303641;
+}
+
+
+[data-theme="dark"] .dashboard .card button:hover,
+[data-theme="dark"] .dashboard .collection-card button:hover,
+[data-theme="dark"] .dashboard [class*="collection-card"] button:hover {
+  color: #ffffff;
+
+  background: var(--admin-primary);
+
+  border-color: var(--admin-primary);
+}
+
+
+/* ---------------------------------------------------------
+   DASHBOARD CARD ENTRY ANIMATION
+   --------------------------------------------------------- */
+
+.dashboard .card,
+.dashboard .collection-card,
+.dashboard [class*="collection-card"] {
+  animation:
+    dashboardCardIn 260ms var(--admin-ease) both;
+}
+
+
+.dashboard .card:nth-child(2),
+.dashboard .collection-card:nth-child(2) {
+  animation-delay: 40ms;
+}
+
+.dashboard .card:nth-child(3),
+.dashboard .collection-card:nth-child(3) {
+  animation-delay: 80ms;
+}
+
+.dashboard .card:nth-child(4),
+.dashboard .collection-card:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+
+@keyframes dashboardCardIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   DASHBOARD RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .dashboard .card-list,
+  .dashboard .collection-list,
+  .dashboard [class*="card-list"] {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .dashboard .card-list,
+  .dashboard .collection-list,
+  .dashboard [class*="card-list"] {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .dashboard .card,
+  .dashboard .collection-card,
+  .dashboard [class*="collection-card"] {
+    min-height: 96px;
+
+    padding: 20px;
+  }
+}
+
+/* ---------------------------------------------------------
+   COLLECTIONS GRID
+   --------------------------------------------------------- */
+
+.dashboard .card-list,
+.dashboard .collection-list,
+.dashboard [class*="card-list"] {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(210px, 1fr));
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin-top: 20px;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION CARD
+   --------------------------------------------------------- */
+
+.dashboard .card,
+.dashboard .collection-card,
+.dashboard [class*="collection-card"] {
+  position: relative;
+
+  min-height: 88px;
+
+  padding: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 100%
+    );
+
+  border: 1px solid #e5e1ff;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 6px rgba(99, 91, 255, 0.06);
+
+  overflow: hidden;
+
+  transition:
+    transform 180ms var(--admin-ease),
+    border-color 180ms var(--admin-ease),
+    box-shadow 180ms var(--admin-ease),
+    background 180ms var(--admin-ease);
+}
+
+
+/* ---------------------------------------------------------
+   SUBTLE PURPLE ACCENT
+   --------------------------------------------------------- */
+
+.dashboard .card::before,
+.dashboard .collection-card::before,
+.dashboard [class*="collection-card"]::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: linear-gradient(
+    180deg,
+    #635bff,
+    #8b83ff
+  );
+
+  opacity: 0.9;
+}
+
+
+/* ---------------------------------------------------------
+   CARD HOVER
+   --------------------------------------------------------- */
+
+.dashboard .card:hover,
+.dashboard .collection-card:hover,
+.dashboard [class*="collection-card"]:hover {
+  transform: translateY(-3px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f3f1ff 100%
+    );
+
+  border-color: rgba(99, 91, 255, 0.32);
+
+  box-shadow:
+    0 10px 24px rgba(99, 91, 255, 0.12);
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION CARD LINK
+   --------------------------------------------------------- */
+
+.dashboard .card a,
+.dashboard .collection-card a,
+.dashboard [class*="collection-card"] a {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  width: 100%;
+
+  min-height: 100%;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION TITLE
+   --------------------------------------------------------- */
+
+.dashboard .card h2,
+.dashboard .card h3,
+.dashboard .collection-card h2,
+.dashboard .collection-card h3,
+.dashboard [class*="collection-card"] h2,
+.dashboard [class*="collection-card"] h3 {
+  margin: 0;
+
+  color: #1d2433;
+
+  font-size: 14px;
+
+  line-height: 1.4;
+
+  font-weight: 600;
+
+  letter-spacing: -0.01em;
+
+  transition:
+    color 160ms var(--admin-ease);
+}
+
+
+.dashboard .card:hover h2,
+.dashboard .card:hover h3,
+.dashboard .collection-card:hover h2,
+.dashboard .collection-card:hover h3 {
+  color: #635bff;
+}
+
+
+/* ---------------------------------------------------------
+   PLUS BUTTON
+   --------------------------------------------------------- */
+
+.dashboard .card button,
+.dashboard .collection-card button,
+.dashboard [class*="collection-card"] button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  width: 32px;
+  height: 32px;
+
+  min-width: 32px;
+  min-height: 32px;
+
+  margin-left: 14px;
+
+  padding: 0;
+
+  color: #635bff;
+
+  background: #eeecff;
+
+  border: 1px solid #ddd9ff;
+
+  border-radius: 50%;
+
+  box-shadow: none;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms var(--admin-ease),
+    background 160ms var(--admin-ease),
+    border-color 160ms var(--admin-ease),
+    transform 160ms var(--admin-ease),
+    box-shadow 160ms var(--admin-ease);
+}
+
+
+/* ---------------------------------------------------------
+   PLUS BUTTON HOVER
+   --------------------------------------------------------- */
+
+.dashboard .card button:hover,
+.dashboard .collection-card button:hover,
+.dashboard [class*="collection-card"] button:hover {
+  color: #ffffff;
+
+  background: #635bff;
+
+  border-color: #635bff;
+
+  transform: rotate(90deg) scale(1.04);
+
+  box-shadow:
+    0 5px 12px rgba(99, 91, 255, 0.25);
+}
+
+
+/* ---------------------------------------------------------
+   PLUS ICON
+   --------------------------------------------------------- */
+
+.dashboard .card button svg,
+.dashboard .collection-card button svg,
+.dashboard [class*="collection-card"] button svg {
+  width: 15px;
+  height: 15px;
+
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------
+   DARK MODE
+   --------------------------------------------------------- */
+
+[data-theme="dark"] .dashboard .card,
+[data-theme="dark"] .dashboard .collection-card,
+[data-theme="dark"] .dashboard [class*="collection-card"] {
+  background:
+    linear-gradient(
+      135deg,
+      #171a23 0%,
+      #19182a 100%
+    );
+
+  border-color: #30304a;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+
+[data-theme="dark"] .dashboard .card:hover,
+[data-theme="dark"] .dashboard .collection-card:hover,
+[data-theme="dark"] .dashboard [class*="collection-card"]:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #1b1e29 0%,
+      #211f35 100%
+    );
+
+  border-color: rgba(130, 122, 255, 0.45);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.30);
+}
+
+
+[data-theme="dark"] .dashboard .card h2,
+[data-theme="dark"] .dashboard .card h3,
+[data-theme="dark"] .dashboard .collection-card h2,
+[data-theme="dark"] .dashboard .collection-card h3,
+[data-theme="dark"] .dashboard [class*="collection-card"] h2,
+[data-theme="dark"] .dashboard [class*="collection-card"] h3 {
+  color: #f2f4f7;
+}
+
+
+[data-theme="dark"] .dashboard .card:hover h2,
+[data-theme="dark"] .dashboard .card:hover h3,
+[data-theme="dark"] .dashboard .collection-card:hover h2,
+[data-theme="dark"] .dashboard .collection-card:hover h3 {
+  color: #9a94ff;
+}
+
+
+[data-theme="dark"] .dashboard .card button,
+[data-theme="dark"] .dashboard .collection-card button,
+[data-theme="dark"] .dashboard [class*="collection-card"] button {
+  color: #aaa5ff;
+
+  background: rgba(99, 91, 255, 0.12);
+
+  border-color: rgba(130, 122, 255, 0.25);
+}
+
+
+[data-theme="dark"] .dashboard .card button:hover,
+[data-theme="dark"] .dashboard .collection-card button:hover,
+[data-theme="dark"] .dashboard [class*="collection-card"] button:hover {
+  color: #ffffff;
+
+  background: #635bff;
+
+  border-color: #635bff;
+}
+
+
+/* =========================================================
+   PREMIUM THEME TOGGLE
+   ========================================================= */
+
+.admin-theme-toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin-right: 14px;
+  cursor: pointer;
+}
+
+.theme-toggle-track {
+  position: relative;
+
+  width: 94px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 3px;
+
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+
+  background: var(--theme-elevation-100);
+
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.theme-toggle-label {
+  position: relative;
+  z-index: 2;
+
+  width: 50%;
+
+  text-align: center;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  transition:
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.light-label {
+  color: var(--theme-text);
+}
+
+.dark-label {
+  color: var(--theme-text);
+  opacity: 0.45;
+}
+
+/* Sliding active background */
+
+.theme-toggle-slider {
+  position: absolute;
+  z-index: 1;
+
+  top: 3px;
+  left: 3px;
+
+  width: 43px;
+  height: 26px;
+
+  border-radius: 999px;
+
+  background: var(--admin-primary);
+
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.15);
+
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.25s ease;
+}
+
+/* DARK STATE */
+
+.admin-theme-toggle.is-dark .theme-toggle-slider {
+  transform: translateX(43px);
+}
+
+.admin-theme-toggle.is-dark .light-label {
+  opacity: 0.45;
+}
+
+.admin-theme-toggle.is-dark .dark-label {
+  color: var(--theme-text);
+  opacity: 1;
+}
+
+/* Hover */
+
+.admin-theme-toggle:hover .theme-toggle-track {
+  border-color: var(--admin-primary);
+
+  box-shadow:
+    0 4px 14px rgba(99, 91, 255, 0.12);
+}
+
+/* Click */
+
+.admin-theme-toggle:active .theme-toggle-slider {
+  transform: scale(0.94);
+}
+
+.admin-theme-toggle.is-dark:active .theme-toggle-slider {
+  transform: translateX(43px) scale(0.94);
+}
+
+/* =========================================================
+   ADMIN PROFILE AVATAR
+   ========================================================= */
+
+.custom-admin-avatar {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--admin-primary);
+
+  border: 2px solid var(--theme-elevation-200);
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.custom-admin-avatar:hover {
+  transform: scale(1.05);
+
+  border-color: var(--admin-primary);
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.custom-admin-avatar-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.custom-admin-avatar-initial {
+  font-size: 15px;
+  font-weight: 700;
+
+  color: white;
+
+  text-transform: uppercase;
+}
