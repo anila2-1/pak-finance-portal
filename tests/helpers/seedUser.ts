@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import config from '../../src/payload.config.js'
 
 export const testUser = {
+  firstName: 'Test',
   email: 'dev@payloadcms.com',
   password: 'test',
 }
