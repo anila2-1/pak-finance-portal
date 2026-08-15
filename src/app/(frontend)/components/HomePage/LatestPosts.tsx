@@ -32,12 +32,8 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
       </div>
 
       {posts?.length ? (
-        /*
-         * IMPORTANT:
-         * Grid layout remains unchanged.
-         */
         <div className="grid gap-5 sm:grid-cols-2">
-          {posts.map((post: any, index: number) => {
+          {posts.slice(0, 8).map((post: any, index: number) => {
             const imageUrl =
               typeof post?.featuredImage === 'object' ? post?.featuredImage?.url : null
 

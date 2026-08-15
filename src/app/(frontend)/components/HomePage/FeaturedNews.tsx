@@ -11,8 +11,8 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
   }
 
   const featured = posts[0]
-  // Ab 4 posts le rahe hain (Index 1 se 5 tak) space ko fill karne ke liye
-  const secondary = posts.slice(1, 5)
+  // Only show 3 secondary posts on the right side, with 1 main featured story on the left
+  const secondary = posts.slice(1, 4)
 
   const featuredImageUrl =
     typeof featured?.featuredImage === 'object' ? featured?.featuredImage?.url : null
