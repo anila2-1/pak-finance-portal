@@ -38,7 +38,7 @@ export default function RateCards({ rates }: RateCardsProps) {
   ]
 
   return (
-    <section className="border-b border-[#dcfff5] bg-white">
+    <section className="border-b border-[#dcfff5] bg-[#f6f6f6]">
       <div className="mx-auto max-w-7xl px-6 py-6 sm:px-8 lg:px-10">
         {/* LIVE HEADER */}
         <div className="mb-3 flex items-center justify-between">
@@ -48,15 +48,15 @@ export default function RateCards({ rates }: RateCardsProps) {
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#cf0808]" />
             </span>
 
-            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#cc0707]">
+            <span className="text-[12px] font-bold uppercase tracking-[0.14em] text-[#cc0707]">
               Live Market Rates
             </span>
           </div>
 
           {rates?.source && (
             <div className="hidden items-center gap-1.5 text-[11px] sm:flex">
-              <span className="text-[#879391]">Source</span>
-              <span className="font-medium text-[#0f8f83]">{rates.source}</span>
+              <span className="text-[#656d6b]">Source</span>
+              <span className="font-medium text-[#021d1a]">{rates.source}</span>
             </div>
           )}
         </div>
@@ -70,7 +70,7 @@ export default function RateCards({ rates }: RateCardsProps) {
                 group relative flex min-h-20.5 items-center
                 justify-between overflow-hidden rounded-xl
                 border border-[#e0e8e6]
-                bg-[#fbffff]
+                bg-white
                 px-3.5 py-3
                 transition-all duration-200
                 hover:-translate-y-0.5

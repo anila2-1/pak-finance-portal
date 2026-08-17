@@ -43,7 +43,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
   }
 
   return (
-    <section className="border-y border-[#dcece9] bg-[#f4f8f76e]">
+    <section className="border-y border-[#dcece9] bg-[#385945]">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {/* SECTION HEADER */}
         <div className="mb-4 flex items-end justify-between">
@@ -51,7 +51,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
 
           <Link
             href="/posts"
-            className="hidden items-center gap-1.5 text-sm font-semibold text-[#0f8f83] transition hover:text-[#08776d] sm:flex"
+            className="hidden items-center gap-1.5 text-sm font-semibold text-[#ffffff] transition hover:text-[#f3fffe] sm:flex"
           >
             View all
             <ArrowUpRight size={16} weight="bold" />
@@ -63,7 +63,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
           {/* =====================================================
               MAIN FEATURED POST
           ===================================================== */}
-          <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#d7eae7] bg-white shadow-[0_5px_25px_rgba(15,143,131,0.06)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(15,143,131,0.11)] lg:col-span-7">
+          <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#385945] bg-[#d9ece8] shadow-[0_5px_25px_rgba(15,143,131,0.06)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(15,143,131,0.11)] lg:col-span-7">
             {/* IMAGE CONTAINER */}
             <Link href={`/${featured.slug}`} className="block">
               <div className="relative aspect-video w-full overflow-hidden bg-[#dfeceb]">
@@ -87,7 +87,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                 {/* META */}
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-medium text-[#728083]">
                   {featuredCategoryName && (
-                    <span className="rounded-md bg-[#eaf8f5] px-2.5 py-1 font-semibold text-[#0f8f83]">
+                    <span className="rounded-md bg-[#385945] px-2.5 py-1 font-semibold text-[#ffffff]">
                       {featuredCategoryName}
                     </span>
                   )}
@@ -108,10 +108,10 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                 </div>
 
                 {/* TITLE */}
-                <h3 className="mt-2.5 max-w-[92%] text-lg font-bold leading-snug tracking-tight text-[#172326] sm:text-xl">
+                <h3 className="mt-2.5 max-w-[92%] text-lg font-bold leading-snug tracking-tight text-[#121b1d] sm:text-xl">
                   <Link
                     href={`/${featured.slug}`}
-                    className="transition-colors hover:text-[#0f8f83]"
+                    className="transition-colors hover:text-[#09867a]"
                   >
                     {featured.title}
                   </Link>
@@ -136,7 +136,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                     return (
                       <span
                         key={tag?.id || tagTitle}
-                        className="rounded-md bg-[#f4f7f6] px-2 py-0.5 text-[10px] font-medium text-[#657477]"
+                        className="rounded-md bg-[#385945] px-2 py-0.5 text-[10px] font-medium text-[#f1f8fa]"
                       >
                         #{tagTitle}
                       </span>
@@ -154,16 +154,16 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                   bottom-0
                   right-0
                   flex
-                  h-14
-                  w-14
+                  h-16
+                  w-16
                   items-center
                   justify-center
-                  rounded-tl-[24px]
-                  bg-[#d9ece8]
-                  text-[#0f8f83]
+                  rounded-tl-[30px]
+                  bg-[#385945]
+                  text-[#136159]
                   transition-all
                   duration-300
-                  hover:bg-[#0f8f83]
+                  hover:bg-[#385945]
                   hover:text-white
                 "
               >
@@ -175,7 +175,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                     items-center
                     justify-center
                     rounded-full
-                    bg-[#0f8f83]
+                    bg-[#385945]
                     text-white
                     shadow-sm
                     transition-transform
@@ -224,14 +224,14 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                     gap-3
                     rounded-2xl
                     border
-                    border-[#dceae8]
-                    bg-white
+                    border-[#385945]
+                    bg-[#385945]
                     p-6
                     shadow-[0_3px_16px_rgba(23,35,38,0.035)]
                     transition-all
                     duration-300
                     hover:-translate-y-0.5
-                    hover:border-[#b9ddd8]
+                    hover:border-[#385945]
                     hover:shadow-[0_10px_28px_rgba(15,143,131,0.09)]
                   "
                 >
@@ -276,28 +276,28 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
                     {/* CATEGORY */}
                     <div className="mb-4 flex items-center gap-1.5">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#0f8f83]" />
-                      <span className="truncate text-[10px] font-bold uppercase tracking-[0.08em] text-[#0f8f83]">
+                      <span className="truncate text-[10px] font-bold uppercase tracking-[0.08em] text-[#f1fffe]">
                         {categoryName || 'Finance'}
                       </span>
                     </div>
                     {/* META */}
-                    <div className="mb-6 flex flex-wrap items-center gap-1.5 text-[10px] text-[#849092]">
+                    <div className="mb-6 flex flex-wrap items-center gap-1.5 text-[10px] text-[#eef1f1]">
                       {authorName && <span className="truncate">By {authorName}</span>}
-                      {authorName && post?.publishedAt && <span className="text-[#c7d1d0]">•</span>}
+                      {authorName && post?.publishedAt && <span className="text-[#eceeee]">•</span>}
                       {post?.publishedAt && <span>{formatDate(post.publishedAt)}</span>}
                     </div>
                     {/* TITLE */}
-                    <h3 className="line-clamp-2 text-xs font-bold leading-snug text-[#172326] sm:text-sm">
+                    <h3 className="line-clamp-2 text-xs font-bold leading-snug text-[#e9e9e9] sm:text-sm">
                       <Link
                         href={`/${post?.slug}`}
-                        className="transition-colors hover:text-[#0f8f83]"
+                        className="transition-colors hover:text-[#b9ddda]"
                       >
                         {post?.title}
                       </Link>
                     </h3>
                     {/* EXCERPT */}
                     {post?.excerpt && (
-                      <p className="mt-2 max-w-[92%] line-clamp-2 text-sm leading-relaxed text-[#667477]">
+                      <p className="mt-2 max-w-[92%] line-clamp-2 text-sm leading-relaxed text-[#b9ddda]">
                         {post.excerpt}
                       </p>
                     )}

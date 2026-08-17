@@ -14,7 +14,7 @@ export default function Header({ siteSettings }: HeaderProps) {
   const logo = typeof siteSettings?.logo === 'object' ? siteSettings.logo : null
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#78ffd9] bg-white/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-[#385945] bg-white/90 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* MAIN HEADER */}
         <div className="flex h-18 items-center">

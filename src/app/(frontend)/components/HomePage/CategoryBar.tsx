@@ -37,7 +37,7 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
       {/* Marquee */}
       <div className="relative overflow-hidden">
         {/* Left fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-[#f8faf9] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-[#ffffff] to-transparent" />
 
         {/* Right fade */}
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-gradient-to-l from-[#f8faf9] to-transparent" />

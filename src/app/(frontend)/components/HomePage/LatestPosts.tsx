@@ -11,7 +11,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
       {/* SECTION HEADER */}
       <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#0f8f83]">Latest</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#088578]">Latest</p>
 
           {/* <h2 className="mt-1 text-2xl font-bold tracking-tight text-[#172326] sm:text-3xl">
             Latest Financial Articles

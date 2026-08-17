@@ -100,7 +100,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         {gaEnabled && gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
       </head>
 
-      <body className="font-sans bg-[#f4f8f76e]">
+      <body className="font-sans bg-[#f5f5f5]">
         <main>{children}</main>
         <ScrollToTop />
       </body>
