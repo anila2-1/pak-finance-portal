@@ -8,11 +8,32 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
-    localPatterns: [
+    remotePatterns: [
       {
-        pathname: '/api/media/file/**',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'hamariinfo.com',
+        pathname: '/api/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.r2.dev',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudflarestorage.com',
+        pathname: '/**',
       },
     ],
+  },
+  env: {
+    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL || '',
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
