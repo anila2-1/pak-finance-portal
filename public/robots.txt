@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+
+# Sitemaps
+Sitemap: https://spoilergr.com/sitemap.xml
+Sitemap: https://spoilergr.com/news-sitemap.xml

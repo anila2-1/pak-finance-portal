@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import path from 'path'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -15,5 +16,8 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    staticDir: path.resolve(process.cwd(), '../../public/media'),
+    mimeTypes: ['image/*', 'video/*'],
+  },
 }
