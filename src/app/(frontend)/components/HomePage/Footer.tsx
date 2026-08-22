@@ -78,7 +78,7 @@ export default function Footer({ siteSettings }: FooterProps) {
 
   const currentSettings = settings || {}
 
-  const siteName = currentSettings.siteName || currentSettings.name || 'Pakistan Finance'
+  const siteName = currentSettings.siteName || currentSettings.name || 'HamariInfo'
 
   const siteDescription =
     currentSettings.siteDescription || "Pakistan's trusted financial information portal."

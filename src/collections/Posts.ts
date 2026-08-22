@@ -39,7 +39,7 @@ export const Posts: CollectionConfig = {
       const slug = doc?.slug
 
       if (slug) {
-        return `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/draft-preview?slug=${slug}&secret=${secret}`
+        return `${process.env.NEXT_PUBLIC_SERVER_URL || 'https://hamariinfo.com'}/api/draft-preview?slug=${slug}&secret=${secret}`
       }
       return null
     },

@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const settings = (await getSiteSettings()) ?? {}
 
-  const siteName = (settings as any).siteName || 'Pakistan Finance'
+  const siteName = (settings as any).siteName || 'HamariInfo'
 
   const description =
     (settings as any).siteDescription ||
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const faviconUrl = typeof favicon === 'object' && favicon?.url ? favicon.url : undefined
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || ''),
 
     title: {
       default: metaTitle,

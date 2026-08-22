@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 export default function Header({ siteSettings }: HeaderProps) {
-  const siteName = siteSettings?.siteName || siteSettings?.name || 'Pakistan Finance'
+  const siteName = siteSettings?.siteName || siteSettings?.name || 'HamariInfo'
 
   const logo = typeof siteSettings?.logo === 'object' ? siteSettings.logo : null
 

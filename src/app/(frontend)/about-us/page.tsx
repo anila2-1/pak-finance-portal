@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata(): Promise<Metadata> {
   const settings = (await getSiteSettings()) ?? {}
 
-  const siteName = (settings as any).siteName || 'Pakistan Finance'
+  const siteName = (settings as any).siteName || 'HamariInfo'
 
   return {
     title: `About Us | ${siteName}`,
@@ -48,7 +48,7 @@ export default async function AboutUsPage() {
     siteDescription?: string
   } | null
 
-  const siteName = siteSettings?.siteName || 'Pakistan Finance'
+  const siteName = siteSettings?.siteName || 'HamariInfo'
 
   const siteDescription =
     (siteSettings as any).siteDescription ||

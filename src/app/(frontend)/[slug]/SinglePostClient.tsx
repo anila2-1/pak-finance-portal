@@ -48,7 +48,7 @@ export default function SinglePostClient({
           </div>
         </main>
 
-        <Footer siteSettings={{ siteName: 'Pakistan Finance Portal' }} />
+        <Footer siteSettings={{ siteName: 'HamariInfo' }} />
       </>
     )
   }
@@ -56,7 +56,7 @@ export default function SinglePostClient({
   const featuredImage = typeof post.featuredImage === 'object' ? post.featuredImage : null
   const category = typeof post.category === 'object' ? post.category : null
   const author = typeof post.author === 'object' ? post.author : null
-  const authorName = author?.firstName || author?.name || author?.email || 'Pakistan Finance Portal'
+  const authorName = author?.firstName || author?.name || author?.email || 'HamariInfo'
 
   const formattedDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-PK', {
@@ -336,7 +336,7 @@ export default function SinglePostClient({
                           ) : (
                             <div className="flex aspect-[16/9] items-center justify-center bg-[#eef8f6]">
                               <span className="text-xs font-semibold text-[#0f8f83]">
-                                Pakistan Finance
+                                HamariInfo
                               </span>
                             </div>
                           )}

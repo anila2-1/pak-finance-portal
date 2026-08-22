@@ -115,7 +115,7 @@ export default function SearchResultsClient({
               </div>
 
               <h2 className="mt-5 text-xl font-bold text-[#172326]">
-                {query ? 'No articles found' : 'Search Pakistan Finance'}
+                {query ? 'No articles found' : 'Search HamariInfo'}
               </h2>
 
               <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#647572]">
@@ -195,7 +195,7 @@ export default function SearchResultsClient({
                           href={`/${post.slug}`}
                           className="flex aspect-[16/9] items-center justify-center bg-[#eef8f6]"
                         >
-                          <span className="text-sm font-bold text-[#0f8f83]">Pakistan Finance</span>
+                          <span className="text-sm font-bold text-[#0f8f83]">HamariInfo</span>
                         </Link>
                       )}
 

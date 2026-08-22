@@ -55,7 +55,7 @@ export default buildConfig({
       tabbedUI: true,
 
       generateTitle: ({ doc }) => {
-        return doc?.title ? `${doc.title} ` : 'Pakistan Finance'
+        return doc?.title ? `${doc.title} ` : 'HamariInfo'
       },
 
       generateDescription: ({ doc }) => {
@@ -63,7 +63,7 @@ export default buildConfig({
       },
 
       generateURL: ({ doc }) => {
-        return doc?.slug ? `http://localhost:3000/${doc.slug}` : ''
+        return doc?.slug ? `https://hamariinfo.com/${doc.slug}` : ''
       },
     }),
   ],

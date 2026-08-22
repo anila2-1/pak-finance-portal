@@ -17,7 +17,7 @@ export const SiteSettings: GlobalConfig = {
       label: 'Site Name',
       type: 'text',
       required: true,
-      defaultValue: 'Pakistan Finance',
+      defaultValue: 'HamariInfo',
     },
 
     {

@@ -49,9 +49,9 @@ function formatRateDate(value: unknown) {
 function buildFinanceContext(rates: any) {
   if (!rates) {
     return `
-CURRENT PAKISTAN FINANCE DATA
+CURRENT HamariInfo DATA
 
-No daily rate record is currently available from Pakistan Finance.
+No daily rate record is currently available from HamariInfo.
 
 IMPORTANT:
 Do not invent or guess any financial rate.
@@ -60,7 +60,7 @@ If the user asks for a current rate, clearly say the data is unavailable.
   }
 
   return `
-CURRENT PAKISTAN FINANCE DATA
+CURRENT HamariInfo DATA
 =============================
 
 DATE:
@@ -82,7 +82,7 @@ Index: ${formatRate(rates.stock?.kse100Index)} points
 Change: ${rates.stock?.kse100Change ?? 'Not available'}
 
 SOURCE:
-${rates.source ?? 'Pakistan Finance'}
+${rates.source ?? 'HamariInfo'}
 
 NOTES:
 ${rates.notes ?? 'No additional notes.'}
@@ -206,7 +206,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'Pakistan Finance live data',
+        source: rates?.source || 'HamariInfo live data',
         ai: false,
       })
     }
@@ -229,9 +229,9 @@ export async function POST(request: NextRequest) {
     --------------------------------------------------- */
 
     const systemInstruction = `
-You are the official Pakistan Finance Assistant.
+You are the official HamariInfo Assistant.
 
-You answer questions for the Pakistan Finance website.
+You answer questions for the HamariInfo website.
 
 Your primary purpose is to provide accurate and easy-to-understand
 information about:
@@ -277,7 +277,7 @@ IMPORTANT DATA RULES:
 
 14. If the user asks in Urdu or Roman Urdu, answer in the same language.
 
-15. If the question is unrelated to Pakistan finance, politely explain
+15. If the question is unrelated to HamariInfo, politely explain
     that you are focused on Pakistan financial information.
 
 16. For personalized investment advice, explain that the information
@@ -378,7 +378,7 @@ Keep the answer concise.
       return NextResponse.json({
         success: true,
         answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'Pakistan Finance live data',
+        source: rates?.source || 'HamariInfo live data',
         ai: false,
       })
     }
@@ -419,7 +419,7 @@ Keep the answer concise.
       return NextResponse.json({
         success: true,
         answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'Pakistan Finance live data',
+        source: rates?.source || 'HamariInfo live data',
         ai: false,
       })
     }
@@ -431,7 +431,7 @@ Keep the answer concise.
     return NextResponse.json({
       success: true,
       answer,
-      source: rates?.source || 'Pakistan Finance',
+      source: rates?.source || 'HamariInfo',
       ai: true,
     })
   } catch (error) {
@@ -451,7 +451,7 @@ Keep the answer concise.
       return NextResponse.json({
         success: true,
         answer: fallbackAnswer('financial information', rates),
-        source: rates?.source || 'Pakistan Finance live data',
+        source: rates?.source || 'HamariInfo live data',
         ai: false,
       })
     } catch {

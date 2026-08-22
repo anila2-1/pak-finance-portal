@@ -27,8 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ? absoluteUrl(featuredImage.url)
     : absoluteUrl('/opengraph-image.jpg')
 
-  const imageAlt =
-    featuredImage?.alt || latestPost?.title || 'Latest Financial News - Pakistan Finance'
+  const imageAlt = featuredImage?.alt || latestPost?.title || 'Latest Financial News - HamariInfo'
 
   const canonical = absoluteUrl('/posts')
 

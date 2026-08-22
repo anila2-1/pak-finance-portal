@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default async function DisclaimerPage() {
   const siteSettings = (await getSiteSettings()) as { siteName?: string } | null
-  const siteName = siteSettings?.siteName || 'Pakistan Finance'
+  const siteName = siteSettings?.siteName || 'HamariInfo'
 
   return (
     <div className="min-h-screen bg-[#f4f8f76e]">

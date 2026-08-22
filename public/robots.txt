@@ -3,8 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-
-
+Allow: /api/media/
 # Sitemaps
-Sitemap: https://spoilergr.com/sitemap.xml
-Sitemap: https://spoilergr.com/news-sitemap.xml
+Sitemap: https://hamariinfo.com/sitemap.xml
+Sitemap: https://hamariinfo.com/news-sitemap.xml
