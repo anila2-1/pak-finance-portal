@@ -10,33 +10,33 @@ import { getSiteSettings } from '@/lib/getSiteSettings'
 import { absoluteUrl, SITE_NAME } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Financial Categories',
+  title: 'Explore Categories',
   description:
-    'Explore Pakistan Finance categories including gold rates, banking, currency, taxes, prize bonds and financial news.',
+    'Discover live market rates, latest govt scheme updates, loan guides, prize bond results, tech news, and daily informative blogs.',
 
   alternates: {
     canonical: absoluteUrl('/categories'),
   },
 
-  robots: {
-    index: true,
-    follow: true,
-  },
+  // robots: {
+  //   index: true,
+  //   follow: true,
+  // },
 
   openGraph: {
     type: 'website',
-    title: 'Financial Categories ',
+    title: 'Explore Categories ',
     description:
-      'Explore Pakistan Finance categories including gold rates, banking, currency, taxes, prize bonds and financial news.',
+      'Discover live market rates, latest govt scheme updates, loan guides, prize bond results, tech news, and daily informative blogs.',
     url: absoluteUrl('/categories'),
     siteName: SITE_NAME,
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Financial Categories',
+    title: 'Explore Categories',
     description:
-      'Explore Pakistan Finance categories including gold rates, banking, currency, taxes, prize bonds and financial news.',
+      'Discover live market rates, latest govt scheme updates, loan guides, prize bond results, tech news, and daily informative blogs.',
   },
 }
 
@@ -73,7 +73,7 @@ export default async function CategoriesPage() {
         </header>
 
         {/* CATEGORIES */}
-        <section aria-label="Financial categories">
+        <section aria-label="Explore Categories">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
             {categories.length === 0 ? (
               <div className="rounded-2xl border border-[#dce9e7] bg-white px-5 py-10 text-center shadow-[0_4px_20px_rgba(15,23,42,0.03)]">
@@ -84,7 +84,7 @@ export default async function CategoriesPage() {
                 <h2 className="mt-3 text-base font-bold text-[#172326]">No categories found</h2>
 
                 <p className="mt-1 text-xs text-[#748083]">
-                  Financial categories will appear here once they are available.
+                  Explore Categories will appear here once they are available.
                 </p>
               </div>
             ) : (

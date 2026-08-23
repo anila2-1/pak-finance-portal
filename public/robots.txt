@@ -1,9 +1,16 @@
-# *
+# User-Agent Rules
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
 Allow: /api/media/
+
+# Disallow AI Chat & Assistant pages
+Disallow: /chat/
+Disallow: /assistant/
+Disallow: /api/chat/
+Disallow: /api/ai/
+
 # Sitemaps
 Sitemap: https://hamariinfo.com/sitemap.xml
 Sitemap: https://hamariinfo.com/news-sitemap.xml

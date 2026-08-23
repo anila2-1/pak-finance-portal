@@ -64,7 +64,7 @@ export default function SearchResultsClient({
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center text-center">
               <h1 className="text-xl font-bold tracking-tight text-[#172326] sm:text-3xl">
-                {query ? 'Search Results' : 'Search Financial News'}
+                {query ? 'Search Results' : 'Search HamariInfo News'}
               </h1>
 
               {query ? (
@@ -74,8 +74,8 @@ export default function SearchResultsClient({
                 </p>
               ) : (
                 <p className="mt-3 text-sm leading-6 text-[#647572] sm:text-base">
-                  Search Pakistan Finance for financial news, gold rates, currency, banking, taxes
-                  and prize bonds.
+                  Search Pakistan HamariInfo for financial news, gold rates, currency, banking,
+                  taxes and prize bonds.
                 </p>
               )}
             </div>
@@ -155,7 +155,7 @@ export default function SearchResultsClient({
                     Latest
                   </p>
 
-                  <h2 className="mt-1 text-2xl font-bold text-[#172326]">Financial Articles</h2>
+                  <h2 className="mt-1 text-2xl font-bold text-[#172326]">Latest Articles</h2>
                 </div>
 
                 <span className="hidden text-xs text-[#839491] sm:block">
@@ -182,7 +182,7 @@ export default function SearchResultsClient({
                           <div className="relative aspect-[16/9] w-full bg-[#eef4f3]">
                             <Image
                               src={imageUrl}
-                              alt={post.featuredImage?.alt || post.title || 'Financial news'}
+                              alt={post.featuredImage?.alt || post.title || 'Latest News'}
                               fill
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"

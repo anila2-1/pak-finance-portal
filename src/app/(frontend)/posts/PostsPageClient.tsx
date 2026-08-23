@@ -77,7 +77,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
             <div className="flex flex-col items-center justify-center text-center">
               <div>
                 <h1 className="text-xl font-bold tracking-tight text-[#172326] transition-colors duration-300 hover:text-[#0f8f83] sm:text-3xl">
-                  Latest Financial Posts
+                  Latest Updates
                 </h1>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
               <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#71817f]">
                 {category
                   ? 'There are currently no published posts available in the selected category.'
-                  : 'There are currently no published financial posts available.'}
+                  : 'There are currently no published HamariInfo posts available.'}
               </p>
 
               <Link
@@ -159,7 +159,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
                       ) : (
                         <div className="flex h-full items-center justify-center">
                           <span className="text-xs font-semibold text-[#77908d]">
-                            Financial News
+                            HamariInfo News
                           </span>
                         </div>
                       )}

@@ -6,9 +6,11 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import type { Metadata } from 'next'
 
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getTopUpdates } from '@/lib/getTopUpdates'
 import AdSenseAuto from '../../components/AdSenseAuto'
 import GoogleAnalytics from '../../components/GoogleAnalytics'
 import ScrollToTop from './components/HomePage/ScrollToTop'
+import TopUpdatesBar from './components/HomePage/TopUpdatesBar'
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -26,9 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const description =
     (settings as any).siteDescription ||
-    'Pakistan financial rates, gold prices, currency rates, prize bonds and financial market information.'
+    'HamariInfo brings the latest Pakistan rates, gold and currency updates, prize bond results, finance guides, government schemes, banking tips and trending information.'
 
-  const metaTitle = (settings as any).defaultMetaTitle || siteName
+  const metaTitle =
+    (settings as any).defaultMetaTitle ||
+    "HamariInfo | Pakistan's Latest Rates, News & Daily Updates"
 
   const metaDescription = (settings as any).defaultMetaDescription || description
 
@@ -50,10 +54,10 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: '/',
     },
 
-    robots: {
-      index: true,
-      follow: true,
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    // },
 
     icons: faviconUrl
       ? {
@@ -80,15 +84,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
-  const settings = (await getSiteSettings()) ?? {}
+  const [settings, topUpdates] = await Promise.all([getSiteSettings(), getTopUpdates()])
 
-  const adsenseEnabled = Boolean((settings as any).adsenseEnabled)
+  const adsenseEnabled = Boolean((settings as any)?.adsenseEnabled)
 
-  const adsenseClientId = (settings as any).adsenseClientId
+  const adsenseClientId = (settings as any)?.adsenseClientId
 
-  const gaEnabled = Boolean((settings as any).gaEnabled)
+  const gaEnabled = Boolean((settings as any)?.gaEnabled)
 
-  const gaMeasurementId = (settings as any).gaMeasurementId
+  const gaMeasurementId = (settings as any)?.gaMeasurementId
 
   return (
     <html lang="en" className={plusJakarta.variable}>
@@ -101,6 +105,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
 
       <body className="font-sans bg-[#f5f5f5]">
+        <TopUpdatesBar updates={topUpdates} />
         <main>{children}</main>
         <ScrollToTop />
       </body>

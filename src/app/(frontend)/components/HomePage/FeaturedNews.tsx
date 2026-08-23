@@ -357,7 +357,7 @@ export default function FeaturedNews({ posts }: FeaturedNewsProps) {
               hover:bg-[#eaf8f5]
             "
           >
-            View all financial news
+            View all HamariInfo
             <ArrowUpRight size={16} weight="bold" />
           </Link>
         </div>

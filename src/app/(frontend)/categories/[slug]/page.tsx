@@ -23,10 +23,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: 'Category Not Found',
       description: 'The requested category could not be found.',
-      robots: {
-        index: false,
-        follow: false,
-      },
+      // robots: {
+      //   index: false,
+      //   follow: false,
+      // },
     }
   }
 
@@ -44,10 +44,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical,
     },
 
-    robots: {
-      index: true,
-      follow: true,
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    // },
 
     openGraph: {
       type: 'website',

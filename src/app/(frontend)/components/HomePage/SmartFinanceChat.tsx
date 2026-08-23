@@ -30,7 +30,7 @@ export default function SmartAIAssistant() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        aria-label="Open Financial Assistant"
+        aria-label="Open HamariInfo Assistant"
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-[#cfe5e1] bg-white text-[#0f8f83] shadow-[0_8px_30px_rgba(15,143,131,0.18)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-[#0f8f83] hover:text-white sm:bottom-7 sm:right-7"
       >
         <Robot size={25} weight="duotone" />
@@ -71,7 +71,7 @@ export default function SmartAIAssistant() {
             </div>
 
             <div>
-              <p className="text-sm font-bold text-slate-900">Financial Assistant</p>
+              <p className="text-sm font-bold text-slate-900">HamariInfo Assistant</p>
 
               <p className="text-[11px] text-emerald-600">Online • Ready to help</p>
             </div>
@@ -97,8 +97,8 @@ export default function SmartAIAssistant() {
               <p className="text-sm leading-6 text-slate-700">Hello! 👋</p>
 
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                I&apos;m your Pakistan Finance Assistant. Ask me about financial rates, gold prices,
-                currency, prize bonds or the Pakistani financial market.
+                I&apos;m your Pakistan HamariInfo Assistant. Ask me about financial rates, gold
+                prices, currency, prize bonds or the Pakistani financial market.
               </p>
             </div>
 
@@ -137,7 +137,7 @@ export default function SmartAIAssistant() {
               onClick={() => setIsOpen(false)}
               className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 text-sm font-semibold text-white transition hover:bg-[#0f8f83]"
             >
-              Open Financial Assistant
+              Open HamariInfo Assistant
               <ArrowUpRight size={16} weight="bold" />
             </Link>
 

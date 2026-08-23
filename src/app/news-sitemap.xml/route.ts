@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest } from 'next/server'
 import { getPayloadClient } from '@/lib/payload'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://spoilergr.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://hamariinfo.com'
 const SITE_NAME = 'Loacl News Portal'
 
 function escapeXml(unsafe: string): string {

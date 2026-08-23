@@ -39,7 +39,7 @@ export default function MainHomePage({
         {/* =====================================================
             LIVE FINANCIAL RATES
             ===================================================== */}
-        <section aria-label="Live financial rates">
+        <section aria-label="Live HamariInfo">
           <RateCards rates={dailyRates} />
         </section>
 
@@ -47,7 +47,7 @@ export default function MainHomePage({
             FEATURED FINANCIAL NEWS
             ===================================================== */}
         {featuredPosts.length > 0 && (
-          <section aria-label="Featured financial news">
+          <section aria-label="Featured HamariInfo">
             <FeaturedNews posts={featuredPosts} />
           </section>
         )}
@@ -63,13 +63,13 @@ export default function MainHomePage({
             <div className="min-w-0">
               {/* Categories */}
               {categories?.length > 0 && (
-                <section aria-label="Financial categories">
+                <section aria-label="Explore Categories">
                   <CategoryBar categories={categories} />
                 </section>
               )}
 
               {/* Latest Posts */}
-              <section aria-label="Latest financial posts">
+              <section aria-label="Latest Updates">
                 <LatestPosts posts={posts} />
               </section>
             </div>
@@ -78,7 +78,7 @@ export default function MainHomePage({
                 SIDEBAR
                 ================================================= */}
             <aside
-              aria-label="Financial tools and updates"
+              aria-label="HamariInfo and updates"
               className="space-y-6 lg:sticky lg:top-24 lg:self-start"
             >
               {/* Prize Bond Search */}

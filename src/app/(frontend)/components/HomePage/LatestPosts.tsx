@@ -71,7 +71,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-[#eaf5f3]">
-                        <span className="text-xs font-medium text-[#6d8582]">Financial News</span>
+                        <span className="text-xs font-medium text-[#6d8582]">HamarInfo News</span>
                       </div>
                     )}
 
@@ -82,7 +82,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
                     <div className="absolute left-4 top-4">
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#0f8f83] shadow-sm backdrop-blur-sm">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#0f8f83]" />
-                        {categoryName || 'Finance'}
+                        {categoryName || 'HamariInfo'}
                       </span>
                     </div>
 
@@ -164,7 +164,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             href="/posts"
             className="group flex w-full items-center justify-center gap-2 rounded-xl border border-[#cfe4e1] bg-white px-4 py-3 text-sm font-semibold text-[#0f8f83] transition-all duration-300 hover:border-[#0f8f83] hover:bg-[#eaf8f5]"
           >
-            View all financial news
+            View all HamariInfo
             <ArrowUpRight
               size={16}
               weight="bold"

@@ -1,16 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDailyRates } from '@/lib/getDailyRates'
+import { getPayload } from '@/lib/payload'
+import config from '@payload-config'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
 }
 
-/* -------------------------------------------------------
-   FORMAT RATE
-------------------------------------------------------- */
+interface CMSContext {
+  dailyRates: any
+  prizeBonds: any[]
+  posts: any[]
+  categories: any[]
+  tags: any[]
+  topUpdates: any
+}
 
-function formatRate(value: unknown) {
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function formatNumber(value: unknown) {
   if (value === null || value === undefined || value === '') {
     return 'Not available'
   }
@@ -24,11 +35,7 @@ function formatRate(value: unknown) {
   return number.toLocaleString('en-PK')
 }
 
-/* -------------------------------------------------------
-   FORMAT DATE
-------------------------------------------------------- */
-
-function formatRateDate(value: unknown) {
+function formatDate(value: unknown) {
   if (!value) return 'Not available'
 
   try {
@@ -36,117 +43,504 @@ function formatRateDate(value: unknown) {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'Asia/Karachi',
     })
   } catch {
     return String(value)
   }
 }
 
-/* -------------------------------------------------------
-   FINANCE CONTEXT
-------------------------------------------------------- */
+function getPakistanToday() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Karachi',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date())
+}
 
-function buildFinanceContext(rates: any) {
+/* =========================================================
+   SAFE VALUE CLEANER
+========================================================= */
+
+function cleanCMSValue(value: any, depth = 0): any {
+  if (depth > 4) return undefined
+
+  if (
+    value === null ||
+    value === undefined ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  ) {
+    return value
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString()
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .slice(0, 50)
+      .map((item) => cleanCMSValue(item, depth + 1))
+      .filter((item) => item !== undefined)
+  }
+
+  if (typeof value === 'object') {
+    const result: Record<string, any> = {}
+
+    for (const [key, item] of Object.entries(value)) {
+      // Never expose internal/system fields.
+      if (
+        key === 'password' ||
+        key === 'salt' ||
+        key === 'hash' ||
+        key === 'token' ||
+        key === 'secret' ||
+        key === 'apiKey' ||
+        key === 'accessToken'
+      ) {
+        continue
+      }
+
+      const cleaned = cleanCMSValue(item, depth + 1)
+
+      if (cleaned !== undefined) {
+        result[key] = cleaned
+      }
+    }
+
+    return result
+  }
+
+  return undefined
+}
+
+/* =========================================================
+   GET CMS DATA
+========================================================= */
+
+async function getWebsiteCMSContext(question: string): Promise<CMSContext> {
+  let dailyRates: any = null
+  let prizeBonds: any[] = []
+  let posts: any[] = []
+  let categories: any[] = []
+  let tags: any[] = []
+  let topUpdates: any = null
+
+  /*
+   * Daily rates
+   */
+  try {
+    dailyRates = await getDailyRates()
+  } catch (error) {
+    console.error('Daily rates error:', error)
+  }
+
+  /*
+   * Payload CMS
+   */
+  try {
+    const payload = await getPayload({ config })
+
+    /*
+     * Prize Bonds
+     *
+     * We intentionally get a reasonable number of records.
+     * This gives the AI access to recent draw/result information
+     * without sending the entire database to Gemini.
+     */
+    try {
+      const prizeBondResult = await payload.find({
+        collection: 'prize-bond-draws',
+        limit: 50,
+        sort: '-createdAt',
+        depth: 1,
+      })
+
+      prizeBonds = prizeBondResult.docs || []
+    } catch (error) {
+      console.warn('Prize bonds collection unavailable:', error)
+    }
+
+    /*
+     * Recent posts
+     */
+    try {
+      const postResult = await payload.find({
+        collection: 'posts',
+        limit: 20,
+        sort: '-publishedAt',
+        depth: 1,
+      })
+
+      posts = postResult.docs || []
+    } catch (error) {
+      console.warn('Posts collection unavailable:', error)
+    }
+
+    /*
+     * Categories
+     */
+    try {
+      const categoryResult = await payload.find({
+        collection: 'categories',
+        limit: 50,
+        depth: 1,
+      })
+
+      categories = categoryResult.docs || []
+    } catch (error) {
+      console.warn('Categories collection unavailable:', error)
+    }
+
+    /*
+     * Tags
+     */
+    try {
+      const tagResult = await payload.find({
+        collection: 'tags',
+        limit: 100,
+        depth: 1,
+      })
+
+      tags = tagResult.docs || []
+    } catch (error) {
+      console.warn('Tags collection unavailable:', error)
+    }
+
+    /*
+     * Top Updates Global
+     *
+     * If your global slug is different, change it here.
+     */
+    try {
+      topUpdates = await payload.findGlobal({
+        slug: 'top-updates',
+        depth: 2,
+      })
+    } catch (error) {
+      console.warn('Top updates global unavailable:', error)
+    }
+  } catch (error) {
+    console.error('Payload CMS error:', error)
+  }
+
+  return {
+    dailyRates,
+    prizeBonds,
+    posts,
+    categories,
+    tags,
+    topUpdates,
+  }
+}
+
+/* =========================================================
+   BUILD DAILY RATES CONTEXT
+========================================================= */
+
+function buildDailyRatesContext(rates: any) {
   if (!rates) {
     return `
-CURRENT HamariInfo DATA
+DAILY RATES
+No daily rate record is currently available in the website CMS.
 
-No daily rate record is currently available from HamariInfo.
+Do not invent current rates.
+`
+  }
 
-IMPORTANT:
-Do not invent or guess any financial rate.
-If the user asks for a current rate, clearly say the data is unavailable.
+  const date = formatDate(rates.date)
+  const today = getPakistanToday()
+
+  return `
+DAILY HamarInfo FROM WEBSITE CMS
+=======================================
+
+DATA DATE:
+${date}
+
+TODAY IN PAKISTAN:
+${today}
+
+GOLD
+24K Gold:
+Rs. ${formatNumber(rates.gold?.gold24k)} per tola
+
+22K Gold:
+Rs. ${formatNumber(rates.gold?.gold22k)} per tola
+
+CURRENCY
+USD Buying:
+Rs. ${formatNumber(rates.currency?.usdBuying)}
+
+USD Selling:
+Rs. ${formatNumber(rates.currency?.usdSelling)}
+
+FUEL
+Petrol:
+Rs. ${formatNumber(rates.fuel?.petrol)} per litre
+
+KSE-100
+Index:
+${formatNumber(rates.stock?.kse100Index)}
+
+Change:
+${rates.stock?.kse100Change ?? 'Not available'}
+
+SOURCE:
+${rates.source ?? 'Website CMS'}
+
+NOTES:
+${rates.notes ?? 'No additional notes.'}
+
+IMPORTANT DATE RULE:
+These values belong to ${date}.
+
+If this date is different from today's Pakistan date, do NOT call these
+numbers today's rates, today's prices or live rates.
+
+Say that these are the latest available website figures dated ${date}.
+
+Never update, estimate or invent a newer value.
+`
+}
+
+/* =========================================================
+   BUILD PRIZE BOND CONTEXT
+========================================================= */
+
+function buildPrizeBondContext(prizeBonds: any[]) {
+  if (!prizeBonds.length) {
+    return `
+PRIZE BONDS
+No prize bond records are currently available from the website CMS.
+
+Do not invent prize bond draw numbers, winning numbers, dates or prizes.
+`
+  }
+
+  const cleaned = prizeBonds.map((bond) => cleanCMSValue(bond)).filter(Boolean)
+
+  return `
+PRIZE BOND DATA FROM WEBSITE CMS
+================================
+
+The following prize bond records come directly from the website CMS.
+
+Use these records when the user asks about prize bond results, draw dates,
+draw numbers, denominations, winning numbers or prize information.
+
+Never invent a result that does not exist in this CMS data.
+
+${JSON.stringify(cleaned, null, 2)}
+`
+}
+
+/* =========================================================
+   BUILD POSTS CONTEXT
+========================================================= */
+
+function buildPostsContext(posts: any[]) {
+  if (!posts.length) {
+    return `
+WEBSITE POSTS
+No posts are currently available in the CMS context.
+`
+  }
+
+  const simplifiedPosts = posts.map((post) => ({
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    description: post.description,
+    publishedAt: post.publishedAt,
+    createdAt: post.createdAt,
+    category: post.category,
+    categories: post.categories,
+    tags: post.tags,
+    author: post.author,
+  }))
+
+  return `
+RECENT WEBSITE POSTS
+====================
+
+These are recent articles available on the website.
+
+Use them when relevant to the user's question.
+
+${JSON.stringify(cleanCMSValue(simplifiedPosts), null, 2)}
+`
+}
+
+/* =========================================================
+   BUILD CATEGORY / TAG CONTEXT
+========================================================= */
+
+function buildTaxonomyContext(categories: any[], tags: any[]) {
+  return `
+WEBSITE CATEGORIES
+==================
+
+${JSON.stringify(cleanCMSValue(categories), null, 2)}
+
+WEBSITE TAGS
+============
+
+${JSON.stringify(cleanCMSValue(tags), null, 2)}
+`
+}
+
+/* =========================================================
+   BUILD TOP UPDATES CONTEXT
+========================================================= */
+
+function buildTopUpdatesContext(topUpdates: any) {
+  if (!topUpdates) {
+    return `
+TOP UPDATES
+No top updates data is currently available.
 `
   }
 
   return `
-CURRENT HamariInfo DATA
-=============================
+WEBSITE TOP UPDATES
+===================
 
-DATE:
-${formatRateDate(rates.date)}
-
-GOLD:
-24K Gold: Rs. ${formatRate(rates.gold?.gold24k)} per tola
-22K Gold: Rs. ${formatRate(rates.gold?.gold22k)} per tola
-
-USD / PKR:
-USD Buying: Rs. ${formatRate(rates.currency?.usdBuying)} per USD
-USD Selling: Rs. ${formatRate(rates.currency?.usdSelling)} per USD
-
-FUEL:
-Petrol: Rs. ${formatRate(rates.fuel?.petrol)} per litre
-
-KSE-100:
-Index: ${formatRate(rates.stock?.kse100Index)} points
-Change: ${rates.stock?.kse100Change ?? 'Not available'}
-
-SOURCE:
-${rates.source ?? 'HamariInfo'}
-
-NOTES:
-${rates.notes ?? 'No additional notes.'}
+${JSON.stringify(cleanCMSValue(topUpdates), null, 2)}
 `
 }
 
-/* -------------------------------------------------------
-   LOCAL FALLBACK
-------------------------------------------------------- */
+/* =========================================================
+   COMPLETE WEBSITE CONTEXT
+========================================================= */
 
-function fallbackAnswer(question: string, rates: any) {
+function buildWebsiteContext(context: CMSContext) {
+  return `
+============================================================
+WEBSITE CMS CONTEXT
+============================================================
+
+This is information currently available in the HamarInfo.
+
+The CMS is the authoritative source for website-specific information.
+
+${buildDailyRatesContext(context.dailyRates)}
+
+${buildPrizeBondContext(context.prizeBonds)}
+
+${buildPostsContext(context.posts)}
+
+${buildTaxonomyContext(context.categories, context.tags)}
+
+${buildTopUpdatesContext(context.topUpdates)}
+
+============================================================
+END WEBSITE CMS CONTEXT
+============================================================
+`
+}
+
+/* =========================================================
+   GEMINI REQUEST
+========================================================= */
+
+async function callGemini(
+  apiKey: string,
+  model: string,
+  systemInstruction: string,
+  prompt: string,
+) {
+  const url =
+    `https://generativelanguage.googleapis.com/v1beta/models/` + `${model}:generateContent`
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey,
+    },
+    body: JSON.stringify({
+      systemInstruction: {
+        parts: [
+          {
+            text: systemInstruction,
+          },
+        ],
+      },
+
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: prompt,
+            },
+          ],
+        },
+      ],
+
+      generationConfig: {
+        temperature: 0.4,
+        maxOutputTokens: 800,
+      },
+    }),
+  })
+}
+
+/* =========================================================
+   SAFE FALLBACK
+========================================================= */
+
+function fallbackAnswer(question: string, context: CMSContext) {
   const q = question.toLowerCase()
+  const rates = context.dailyRates
 
   if (!rates) {
-    return "I'm sorry, the latest financial rate data is currently unavailable."
+    return 'I could not find the requested current information in the website data.'
   }
 
-  const rateDate = formatRateDate(rates.date)
-
-  /* GOLD */
+  const date = formatDate(rates.date)
 
   if (q.includes('gold') || q.includes('sona') || q.includes('24k') || q.includes('22k')) {
-    return `As of ${rateDate}, 24K gold is Rs. ${formatRate(
+    return `The latest gold data available on the website is dated ${date}. 24K gold is Rs. ${formatNumber(
       rates.gold?.gold24k,
-    )} per tola and 22K gold is Rs. ${formatRate(rates.gold?.gold22k)} per tola.`
+    )} per tola and 22K gold is Rs. ${formatNumber(rates.gold?.gold22k)} per tola.`
   }
 
-  /* USD */
-
   if (
-    q.includes('usd') ||
     q.includes('dollar') ||
+    q.includes('usd') ||
     q.includes('currency') ||
     q.includes('pkr') ||
     q.includes('exchange rate')
   ) {
-    return `As of ${rateDate}, the USD/PKR buying rate is Rs. ${formatRate(
+    return `The latest USD/PKR data available on the website is dated ${date}. The buying rate is Rs. ${formatNumber(
       rates.currency?.usdBuying,
-    )} and the selling rate is Rs. ${formatRate(rates.currency?.usdSelling)} per US dollar.`
+    )} and the selling rate is Rs. ${formatNumber(rates.currency?.usdSelling)} per US dollar.`
   }
 
-  /* PETROL */
-
-  if (q.includes('petrol') || q.includes('fuel') || q.includes('petroleum')) {
-    return `As of ${rateDate}, the petrol price is Rs. ${formatRate(rates.fuel?.petrol)} per litre.`
+  if (q.includes('petrol') || q.includes('fuel') || q.includes('diesel')) {
+    return `The latest petrol data available on the website is dated ${date}. The petrol price is Rs. ${formatNumber(
+      rates.fuel?.petrol,
+    )} per litre.`
   }
 
-  /* KSE */
-
-  if (
-    q.includes('kse') ||
-    q.includes('kse-100') ||
-    q.includes('stock') ||
-    q.includes('market index')
-  ) {
-    return `As of ${rateDate}, the KSE-100 index is ${formatRate(rates.stock?.kse100Index)} points.`
+  if (q.includes('kse') || q.includes('stock market') || q.includes('stock index')) {
+    return `The latest KSE-100 data available on the website is dated ${date}. The index is ${formatNumber(
+      rates.stock?.kse100Index,
+    )} points, with a change of ${rates.stock?.kse100Change ?? 'not available'}.`
   }
 
-  return `I can help with Pakistan's gold prices, USD/PKR rates, petrol prices and KSE-100 market information. Please ask a specific question such as "What is today's gold price?"`
+  return 'I could not generate an AI response right now. Please try your question again.'
 }
 
-/* -------------------------------------------------------
+/* =========================================================
    POST
-------------------------------------------------------- */
+========================================================= */
 
 export async function POST(request: NextRequest) {
   try {
@@ -154,11 +548,20 @@ export async function POST(request: NextRequest) {
 
     const question = String(body?.question || '').trim()
 
-    const history: ChatMessage[] = Array.isArray(body?.history) ? body.history : []
+    const history: ChatMessage[] = Array.isArray(body?.history)
+      ? body.history
+          .filter(
+            (message: any) =>
+              message &&
+              (message.role === 'user' || message.role === 'assistant') &&
+              typeof message.content === 'string',
+          )
+          .slice(-12)
+      : []
 
-    /* ---------------------------------------------------
+    /* -------------------------------------------------------
        VALIDATION
-    --------------------------------------------------- */
+    ------------------------------------------------------- */
 
     if (!question) {
       return NextResponse.json(
@@ -170,7 +573,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (question.length > 1000) {
+    if (question.length > 2000) {
       return NextResponse.json(
         {
           success: false,
@@ -180,43 +583,41 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    /* ---------------------------------------------------
-       GET LIVE DATA FROM PAYLOAD
-    --------------------------------------------------- */
-
-    const rates = await getDailyRates()
-
-    const financeContext = buildFinanceContext(rates)
-
-    /* ---------------------------------------------------
-       GEMINI CONFIG
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       API CONFIG
+    ------------------------------------------------------- */
 
     const apiKey = process.env.GEMINI_API_KEY
 
     const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash'
 
-    /* ---------------------------------------------------
-       NO API KEY → LOCAL FALLBACK
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       GET WEBSITE DATA
+    ------------------------------------------------------- */
+
+    const websiteContextData = await getWebsiteCMSContext(question)
+
+    const websiteContext = buildWebsiteContext(websiteContextData)
+
+    /* -------------------------------------------------------
+       NO API KEY
+    ------------------------------------------------------- */
 
     if (!apiKey) {
-      console.warn('GEMINI_API_KEY is missing. Using local finance fallback.')
-
       return NextResponse.json({
         success: true,
-        answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'HamariInfo live data',
+        answer: fallbackAnswer(question, websiteContextData),
+        source: websiteContextData.dailyRates?.source || 'Website CMS',
         ai: false,
+        fallback: true,
       })
     }
 
-    /* ---------------------------------------------------
-       PREVIOUS CHAT
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       PREVIOUS CONVERSATION
+    ------------------------------------------------------- */
 
     const previousConversation = history
-      .slice(-8)
       .map((message) => {
         const role = message.role === 'assistant' ? 'Assistant' : 'User'
 
@@ -224,168 +625,313 @@ export async function POST(request: NextRequest) {
       })
       .join('\n')
 
-    /* ---------------------------------------------------
-       SYSTEM INSTRUCTIONS
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       SYSTEM INSTRUCTION
+    ------------------------------------------------------- */
 
     const systemInstruction = `
-You are the official HamariInfo Assistant.
+You are the official AI assistant for the Pakistan HamarInfo website.
 
-You answer questions for the HamariInfo website.
+You are a general-purpose conversational AI assistant with strong
+knowledge of Pakistan finance, economics, banking, taxation,
+personal finance, current financial concepts and general topics.
 
-Your primary purpose is to provide accurate and easy-to-understand
-information about:
+You are NOT restricted to only gold, dollar, petrol, KSE or prize bonds.
 
-- Gold prices in Pakistan
-- USD / PKR exchange rates
+You can answer:
+
+- General questions
+- Pakistan finance questions
+- Financial education
+- Gold questions
+- Currency questions
+- Dollar questions
+- Petrol and fuel questions
+- KSE-100 questions
+- Stock market concepts
+- Prize bond questions
+- Prize bond results
+- Prize bond draw information
+- Banking questions
+- Savings questions
+- Tax questions
+- FBR concepts
+- Inflation
+- GDP
+- Interest rates
+- Loans
+- Government financial schemes
+- Personal finance
+- Investment education
+- Business questions
+- Economy questions
+- Technology questions
+- Everyday general questions
+- Questions about articles published on this website
+- Questions about information stored in the website CMS
+
+============================================================
+MOST IMPORTANT RULE
+============================================================
+
+You have two kinds of knowledge.
+
+1. Your general model knowledge.
+2. Information supplied by the website CMS.
+
+For normal educational or general questions, use your knowledge.
+
+For WEBSITE-SPECIFIC information, use the CMS context.
+
+Examples:
+
+"What is inflation?"
+Answer normally.
+
+"What is compound interest?"
+Answer normally.
+
+"What is GDP?"
+Answer normally.
+
+"What is today's gold rate?"
+Use the CMS daily rates.
+
+"What is the USD rate?"
+Use the CMS daily rates.
+
+"What is the latest prize bond result?"
+Use the CMS prize bond records.
+
+"What was the prize bond draw number?"
+Use the CMS prize bond records.
+
+"What are the latest articles on the website?"
+Use the CMS posts.
+
+"What categories does the website have?"
+Use CMS categories.
+
+"What is the latest update?"
+Use the Top Updates CMS context.
+
+============================================================
+CMS DATA SAFETY
+============================================================
+
+Never invent website-specific information.
+
+Never invent:
+
+- Gold prices
+- Dollar rates
 - Petrol prices
-- KSE-100
-- Pakistan financial markets
-- Prize bonds
-- Financial news and general financial concepts
+- KSE values
+- Prize bond numbers
+- Prize bond winning numbers
+- Prize bond draw dates
+- Prize amounts
+- Website article titles
+- Website statistics
+- Website-specific updates
 
-IMPORTANT DATA RULES:
+If the requested website information is not present in the supplied
+CMS context, clearly say that the information is not currently
+available in the website data.
 
-1. CURRENT FINANCE DATA below is the ONLY source of truth for current rates.
+Do NOT pretend that missing CMS information exists.
 
-2. NEVER invent a gold price.
+============================================================
+DATE RULE
+============================================================
 
-3. NEVER invent a USD/PKR rate.
+Always respect dates supplied by the CMS.
 
-4. NEVER invent a petrol price.
+If a rate is dated yesterday or an earlier date, do not call it
+"today's rate" or "live rate".
 
-5. NEVER invent a KSE-100 value.
+Instead say:
 
-6. Always use the exact numbers supplied in CURRENT FINANCE DATA.
+"The latest available data on the website is from [date]."
 
-7. If a requested value says "Not available", clearly tell the user
-   that the value is currently unavailable.
+Never change the CMS date.
 
-8. Always mention the date when answering a current-rate question.
+Never estimate a newer value.
 
-9. Do not call old data "live" unless the supplied date is actually current.
+============================================================
+PRIZE BOND RULE
+============================================================
 
-10. Keep normal answers short: usually 1-3 sentences.
+Prize bond information is especially sensitive to exact numbers.
 
-11. If the user asks specifically for a rate, answer the rate FIRST.
-    Do not start with unnecessary explanations.
+If a prize bond result is available in the CMS:
 
-12. If the user asks for gold price, include both 24K and 22K when available.
+Give the exact information from the CMS.
 
-13. If the user asks for USD/PKR, include both buying and selling rates
-    when available.
+If the requested denomination, draw number, date or winning number
+is not available:
 
-14. If the user asks in Urdu or Roman Urdu, answer in the same language.
+Say that the requested result is not currently available in the
+website data.
 
-15. If the question is unrelated to HamariInfo, politely explain
-    that you are focused on Pakistan financial information.
+Never guess a prize bond result.
 
-16. For personalized investment advice, explain that the information
-    is general and not personalized investment advice.
+============================================================
+FINANCIAL ADVICE
+============================================================
 
-MOST IMPORTANT:
+You may explain investments and financial decisions educationally.
 
-Never stop a rate answer halfway.
+For personalized financial decisions, clearly state that the answer
+is general information and not personalized financial advice.
 
-For example, do NOT answer:
+Do not guarantee profits.
 
-"As per the latest available data..."
+Do not present uncertain predictions as facts.
 
-Instead provide the complete answer with the actual number.
+============================================================
+LANGUAGE
+============================================================
 
-${financeContext}
+If the user writes English, answer in English.
 
-PREVIOUS CONVERSATION:
-${previousConversation || 'No previous conversation.'}
+If the user writes Roman Urdu, answer in Roman Urdu.
+
+If the user writes Urdu, answer in Urdu.
+
+If the user mixes English and Roman Urdu, naturally match their style.
+
+============================================================
+CONVERSATION STYLE
+============================================================
+
+Be natural and conversational.
+
+Do not repeatedly say "According to the CMS".
+
+Do not unnecessarily mention that you are an AI.
+
+Answer the actual question directly.
+
+Do not force every conversation toward finance.
+
+If someone says "hello", respond naturally.
+
+If someone asks a joke, general question or everyday question,
+answer normally.
+
+If someone asks about Pakistan finance, provide useful detail.
+
+Use short paragraphs.
+
+Use bullets when they make the answer easier to read.
+
+For simple questions, keep the answer concise.
+
+For complex questions, explain properly.
+
+============================================================
+WEBSITE CONTEXT
+============================================================
+
+The following information comes from the HamarInfo website CMS.
+
+Treat it as authoritative for website-specific information.
+
+${websiteContext}
 `
 
-    /* ---------------------------------------------------
-       FINAL PROMPT
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       USER PROMPT
+    ------------------------------------------------------- */
 
     const prompt = `
-${systemInstruction}
-
 USER QUESTION:
+
 ${question}
 
-Answer the user directly.
+PREVIOUS CONVERSATION:
 
-For a current rate question, give:
-1. The exact rate.
-2. The date.
-3. The unit if applicable.
+${previousConversation || 'No previous conversation.'}
 
-Keep the answer concise.
+Answer the user's question directly.
+
+If the question asks for website-specific current information,
+use the supplied CMS context.
+
+If the CMS does not contain the requested website-specific
+information, say that it is not currently available.
+
+If the question is general, answer normally using your knowledge.
+
+Do not invent missing website data.
 `
 
-    /* ---------------------------------------------------
-       GEMINI REQUEST
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       GEMINI RETRIES
+    ------------------------------------------------------- */
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-      {
-        method: 'POST',
+    let response: Response | null = null
+    let lastError = ''
 
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey,
-        },
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        response = await callGemini(apiKey, model, systemInstruction, prompt)
 
-        body: JSON.stringify({
-          contents: [
-            {
-              role: 'user',
-              parts: [
-                {
-                  text: prompt,
-                },
-              ],
-            },
-          ],
+        if (response.ok) {
+          break
+        }
 
-          generationConfig: {
-            temperature: 0.1,
+        lastError = await response.text()
 
-            /*
-             * Gemini 3 models support thinkingLevel.
-             * Minimal is enough for a rate assistant and
-             * keeps the response fast and focused.
-             */
-            thinkingConfig: {
-              thinkingLevel: 'minimal',
-            },
+        console.error(`Gemini API attempt ${attempt} failed:`, lastError)
 
-            /*
-             * Enough room for normal assistant answers.
-             */
-            maxOutputTokens: 300,
-          },
-        }),
-      },
-    )
+        /*
+         * Retry temporary failures only.
+         */
+        if (
+          response.status !== 429 &&
+          response.status !== 500 &&
+          response.status !== 502 &&
+          response.status !== 503 &&
+          response.status !== 504
+        ) {
+          break
+        }
 
-    /* ---------------------------------------------------
-       GEMINI ERROR
-    --------------------------------------------------- */
+        if (attempt < 3) {
+          await new Promise((resolve) => setTimeout(resolve, attempt * 1200))
+        }
+      } catch (error) {
+        lastError = String(error)
 
-    if (!response.ok) {
-      const errorText = await response.text()
+        console.error(`Gemini request attempt ${attempt} failed:`, error)
 
-      console.error('Gemini API error:', errorText)
+        if (attempt < 3) {
+          await new Promise((resolve) => setTimeout(resolve, attempt * 1200))
+        }
+      }
+    }
+
+    /* -------------------------------------------------------
+       GEMINI FAILED
+    ------------------------------------------------------- */
+
+    if (!response || !response.ok) {
+      console.error('Gemini ultimately failed:', lastError)
 
       return NextResponse.json({
         success: true,
-        answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'HamariInfo live data',
+        answer: fallbackAnswer(question, websiteContextData),
+        source: websiteContextData.dailyRates?.source || 'Website CMS',
         ai: false,
+        fallback: true,
       })
     }
 
-    /* ---------------------------------------------------
+    /* -------------------------------------------------------
        PARSE RESPONSE
-    --------------------------------------------------- */
+    ------------------------------------------------------- */
 
     const data = await response.json()
 
@@ -401,58 +947,50 @@ Keep the answer concise.
           .trim()
       : ''
 
-    /* ---------------------------------------------------
-       DEBUG FINISH REASON
-    --------------------------------------------------- */
-
-    if (candidate?.finishReason) {
-      console.log('Gemini finish reason:', candidate.finishReason)
-    }
-
-    /* ---------------------------------------------------
-       EMPTY / INCOMPLETE RESPONSE
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       EMPTY RESPONSE
+    ------------------------------------------------------- */
 
     if (!answer) {
-      console.warn('Gemini returned no usable answer. Using fallback.')
+      console.warn('Gemini returned no usable answer.')
 
       return NextResponse.json({
         success: true,
-        answer: fallbackAnswer(question, rates),
-        source: rates?.source || 'HamariInfo live data',
+        answer: fallbackAnswer(question, websiteContextData),
+        source: websiteContextData.dailyRates?.source || 'Website CMS',
         ai: false,
+        fallback: true,
       })
     }
 
-    /* ---------------------------------------------------
-       RETURN SUCCESS
-    --------------------------------------------------- */
+    /* -------------------------------------------------------
+       SUCCESS
+    ------------------------------------------------------- */
 
     return NextResponse.json({
       success: true,
       answer,
-      source: rates?.source || 'HamariInfo',
+      source: 'Gemini AI + HamarInfo CMS',
       ai: true,
+      fallback: false,
     })
   } catch (error) {
     console.error('Assistant API error:', error)
 
     /*
-     * We don't want the assistant to completely break
-     * because of an unexpected API/server problem.
-     *
-     * Try to get the latest rate data again and provide
-     * the local answer if possible.
+     * Last-resort response.
      */
-
     try {
       const rates = await getDailyRates()
 
       return NextResponse.json({
         success: true,
-        answer: fallbackAnswer('financial information', rates),
-        source: rates?.source || 'HamariInfo live data',
+        answer: rates
+          ? `The latest HamariInfo data available on the website is dated ${formatDate(rates.date)}.`
+          : 'The requested information is currently unavailable.',
+        source: rates?.source || 'Website CMS',
         ai: false,
+        fallback: true,
       })
     } catch {
       return NextResponse.json(

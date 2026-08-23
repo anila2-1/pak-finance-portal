@@ -25,17 +25,17 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `About Us | ${siteName}`,
     description:
-      'Learn more about Pakistan Finance, a financial information portal providing Pakistan gold prices, currency rates, petrol prices, prize bond information and market updates.',
+      'Learn more about Pakistan HamariInfo, a HamariInfo portal providing Pakistan gold prices, currency rates, petrol prices, prize bond information and market updates.',
     alternates: {
       canonical: '/about-us',
     },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    // },
     openGraph: {
       title: `About Us | ${siteName}`,
-      description: 'Learn more about Pakistan Finance and the financial information we provide.',
+      description: 'Learn more about Pakistan HamariInfo and the HamariInfo we provide.',
       type: 'website',
       url: '/about-us',
     },
@@ -52,7 +52,7 @@ export default async function AboutUsPage() {
 
   const siteDescription =
     (siteSettings as any).siteDescription ||
-    'Pakistan financial rates, gold prices, currency rates, prize bonds and financial market information.'
+    'Stay informed with real-time market rates, latest government scheme guides, tech updates, and daily informative articles.'
 
   return (
     <div className="min-h-screen bg-[#f4f8f76e] text-[#172326]">
@@ -70,7 +70,7 @@ export default async function AboutUsPage() {
               </div>
 
               <h1 className="text-3xl font-bold tracking-[-0.03em] text-[#172326] sm:text-4xl lg:text-5xl">
-                Reliable Financial Information for Pakistan
+                Reliable HamariInfo for Pakistan
               </h1>
 
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#647477] sm:text-base">

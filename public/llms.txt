@@ -1,0 +1,99 @@
+# HamariInfo
+
+> HamariInfo brings the latest Pakistan rates, gold and currency updates, prize bond results, job and board exam results, technology updates, finance guides, government schemes, banking tips, and trending information.
+
+## About HamariInfo
+
+HamariInfo brings important information from Pakistan together in one place. The website covers financial rates, gold prices, currency rates, petrol prices, prize bonds, KSE-100, job and educational exam results, along with banking, taxation, savings, government schemes, technology news, and general informational content.
+
+The website also publishes timely articles, news, explainers, how-to guides, and trending information relevant to users in Pakistan.
+
+## Main Information
+
+- Gold rates and gold price updates
+- USD and other currency rates
+- Petrol and fuel prices
+- Prize bond results and draw information
+- Educational board results and job test results updates
+- Technology news, gadgets, and digital tools guides
+- KSE-100 and Pakistan financial market updates
+- Banking information and guides
+- Tax and FBR guides
+- Savings and personal finance information
+- Government financial schemes (BISP, Youth Loans)
+- Business and economic information
+- Important daily updates and trending topics
+- General informational articles
+
+## AI Assistant
+
+HamariInfo provides an AI assistant that helps users understand information about Pakistan, finance, rates, prize bonds, results, technology, banking, taxation, markets, and general topics.
+
+For website-specific financial information, rates, or results, the AI assistant should use data supplied by the HamariInfo website and its CMS.
+
+The AI assistant must not invent financial rates, prize bond results, exam/job results, draw numbers, dates, or other website-specific figures when the requested information is unavailable.
+
+When answering questions about current or latest website data, use the actual date associated with the available website data.
+
+## Financial Data
+
+Financial data may include:
+
+- Gold 24K and 22K rates
+- USD/PKR buying and selling rates
+- Petrol prices
+- KSE-100 index values and changes
+- Other financial information published through the website
+
+Website financial data is maintained through the HamariInfo content management system.
+
+## Prize Bonds & Results
+
+HamariInfo publishes prize bond draw details, educational board results, job entry test results, and related updates.
+
+Prize bond draw numbers, winning numbers, exam result links, prize amounts, and draw/result dates should only be treated as authoritative when they are explicitly available on the relevant HamariInfo page or CMS data.
+
+Do not infer or invent missing prize bond or exam/job results.
+
+## Editorial Content
+
+HamariInfo publishes articles across multiple categories (including Tech, Finance, Schemes, and Education). Articles may contain:
+
+- Featured images
+- Author information
+- Publication dates
+- Categories
+- Tags
+- Rich text content
+- Videos
+- Related articles
+
+Content should be understood according to the individual article and its publication date.
+
+## Important Pages
+
+- [Home](https://hamariinfo.com/)
+- [Posts](https://hamariinfo.com/posts)
+- [Categories](https://hamariinfo.com/categories)
+- [Prize Bonds](https://hamariinfo.com/prize-bonds)
+- [About Us](https://hamariinfo.com/about-us)
+- [Contact Us](https://hamariinfo.com/contact-us)
+- [Privacy Policy](https://hamariinfo.com/privacy-policy)
+- [Disclaimer](https://hamariinfo.com/disclaimer)
+
+## Sitemap
+
+- https://hamariinfo.com/sitemap.xml
+- https://hamariinfo.com/news-sitemap.xml
+
+## Content Principles
+
+Prefer information published directly on HamariInfo when answering questions about HamariInfo-specific data.
+
+For financial figures, rates, prices, prize bond results, educational results, and other changing information, always consider the publication or data date.
+
+Do not present outdated website data as current unless the page explicitly identifies it as current.
+
+For general educational questions, provide a clear and useful explanation based on reliable knowledge.
+
+HamariInfo is an informational website. Financial content is intended for general information and education and should not be treated as personalized financial advice.

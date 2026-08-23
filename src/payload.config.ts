@@ -15,6 +15,7 @@ import { Tags } from './collections/Tags'
 import { PrizeBondDraws } from './collections/PrizeBondDraws'
 import { DailyRates } from './collections/DailyRates'
 import SiteSettings from './globals/SiteSettings'
+import TopUpdates from './globals/TopUpdates'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,7 +38,7 @@ export default buildConfig({
   },
   collections: [Users, Media, Categories, DailyRates, Posts, PrizeBondDraws, Tags],
   // Globals array me add karein:
-  globals: [SiteSettings],
+  globals: [SiteSettings, TopUpdates],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -6,7 +6,7 @@ import { getSiteSettings } from '@/lib/getSiteSettings'
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'Read the Privacy Policy of Pakistan Finance to understand how we collect, use and protect information.',
+    'Read the Privacy Policy of Pakistan HamariInfo to understand how we collect, use and protect information.',
 }
 
 export default async function PrivacyPolicyPage() {

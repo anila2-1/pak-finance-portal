@@ -5,7 +5,7 @@ import { getSiteSettings } from '@/lib/getSiteSettings'
 
 export const metadata: Metadata = {
   title: 'Disclaimer',
-  description: 'Read the financial information disclaimer for Pakistan Finance.',
+  description: 'Read the HamariInfo disclaimer for Pakistan.',
 }
 
 export default async function DisclaimerPage() {
@@ -30,7 +30,7 @@ export default async function DisclaimerPage() {
               </h1>
 
               <p className="mt-5 max-w-2xl text-sm leading-7 text-[#647477] sm:text-base">
-                Important information about the financial data, rates, market information and
+                Important information about the HamarInfo data, rates, market information and
                 content published on {siteName}.
               </p>
             </div>

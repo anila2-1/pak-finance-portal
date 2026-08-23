@@ -99,9 +99,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'site-settings': SiteSetting;
+    'top-updates': TopUpdate;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'top-updates': TopUpdatesSelect<false> | TopUpdatesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -658,6 +660,38 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "top-updates".
+ */
+export interface TopUpdate {
+  id: string;
+  /**
+   * Show the top updates bar on the frontend.
+   */
+  enabled?: boolean | null;
+  /**
+   * Automatically generate updates from the latest Daily Rates data.
+   */
+  autoUpdatesEnabled?: boolean | null;
+  items?:
+    | {
+        label: 'BREAKING' | 'UPDATED' | 'TRENDING' | 'RESULT' | 'ALERT';
+        headline: string;
+        link?: string | null;
+        active?: boolean | null;
+        startDate?: string | null;
+        endDate?: string | null;
+        /**
+         * Higher priority items appear first.
+         */
+        priority?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -685,6 +719,29 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         enabled?: T;
         measurementId?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "top-updates_select".
+ */
+export interface TopUpdatesSelect<T extends boolean = true> {
+  enabled?: T;
+  autoUpdatesEnabled?: T;
+  items?:
+    | T
+    | {
+        label?: T;
+        headline?: T;
+        link?: T;
+        active?: T;
+        startDate?: T;
+        endDate?: T;
+        priority?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;

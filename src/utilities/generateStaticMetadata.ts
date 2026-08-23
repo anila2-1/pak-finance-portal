@@ -1,8 +1,8 @@
 // src/utilities/generateStaticMetadata.ts
 import type { Metadata } from 'next'
 
-const SITE_NAME = 'SpoilerGr'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://spoilergr.com'
+const SITE_NAME = 'HamariInfo'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://hamariinfo.com'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/default-og.jpg`
 
 type GenerateStaticMetadataOptions = {
@@ -28,17 +28,17 @@ export function generateStaticMetadata({
     title: fullTitle,
     description: fullDescription,
     alternates: { canonical: fullUrl },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-        'max-video-preview': -1,
-      },
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    //   googleBot: {
+    //     index: true,
+    //     follow: true,
+    //     'max-image-preview': 'large',
+    //     'max-snippet': -1,
+    //     'max-video-preview': -1,
+    //   },
+    // },
     openGraph: {
       type: 'website',
       locale: 'el_GR',

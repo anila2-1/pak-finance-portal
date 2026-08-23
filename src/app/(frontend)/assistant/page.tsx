@@ -3,9 +3,9 @@ import Header from '../components/HomePage/Header'
 import AssistantChat from './AssistantChat'
 
 export const metadata: Metadata = {
-  title: 'Financial Assistant',
+  title: 'HamariInfo Assistant',
   description:
-    'Ask Pakistan Finance Assistant about gold prices, currency rates, prize bonds, financial news and Pakistan financial markets.',
+    'Ask HamariInfo AI Assistant about gold rates, currency rates, prize bonds, financial news, taxes, banking, markets and everyday information from Pakistan.',
 }
 
 export default function AssistantPage() {

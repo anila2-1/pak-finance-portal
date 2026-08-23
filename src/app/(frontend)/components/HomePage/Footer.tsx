@@ -80,8 +80,7 @@ export default function Footer({ siteSettings }: FooterProps) {
 
   const siteName = currentSettings.siteName || currentSettings.name || 'HamariInfo'
 
-  const siteDescription =
-    currentSettings.siteDescription || "Pakistan's trusted financial information portal."
+  const siteDescription = currentSettings.siteDescription || "Pakistan's trusted HamariInfo."
 
   const logo = typeof currentSettings.logo === 'object' ? currentSettings.logo : null
 
@@ -276,7 +275,7 @@ export default function Footer({ siteSettings }: FooterProps) {
                 },
                 {
                   label: 'Contact Us',
-                  href: '/contact',
+                  href: '/contact-us',
                 },
               ].map((item) => (
                 <Link

@@ -116,7 +116,7 @@ export default function LatestUpdates({ posts }: LatestUpdatesProps) {
 
             <p className="mt-3 text-sm font-medium text-[#748381]">No latest updates available.</p>
 
-            <p className="mt-1 text-xs text-[#a0acab]">New financial updates will appear here.</p>
+            <p className="mt-1 text-xs text-[#a0acab]">New HamariInfo updates will appear here.</p>
           </div>
         )}
       </div>

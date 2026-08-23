@@ -5,7 +5,7 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL || ''
 export const SITE_NAME = 'HamariInfo'
 
 export const DEFAULT_DESCRIPTION =
-  'Pakistan Finance provides the latest gold rates, currency rates, petrol prices, KSE-100 updates, prize bond results and financial news in Pakistan.'
+  'HamariInfo brings the latest Pakistan rates, gold and currency updates, prize bond results, finance guides, government schemes, banking tips and trending information.'
 
 export function absoluteUrl(path = '') {
   return new URL(path, SITE_URL).toString()
@@ -44,10 +44,10 @@ export function createSeo({
       canonical,
     },
 
-    robots: {
-      index: true,
-      follow: true,
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    // },
 
     openGraph: {
       title,

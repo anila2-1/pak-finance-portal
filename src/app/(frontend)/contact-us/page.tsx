@@ -7,7 +7,7 @@ import { ChatCircle, EnvelopeSimple, PaperPlaneTilt } from '@phosphor-icons/reac
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Contact Pakistan Finance for questions, feedback, corrections and general inquiries.',
+    'Contact Pakistan HamariInfo for questions, feedback, corrections and general inquiries.',
 }
 
 export default async function ContactPage() {

@@ -20,17 +20,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: 'Post Not Found',
       description: 'The requested article could not be found.',
-      robots: {
-        index: false,
-        follow: false,
-      },
+      // robots: {
+      //   index: false,
+      //   follow: false,
+      // },
     }
   }
 
   const title = post.title
 
-  const description =
-    post.excerpt || `Read the latest financial news and updates about ${post.title}.`
+  const description = post.excerpt || `Read the Hamari Latest Updates ${post.title}.`
 
   const featuredImage = typeof post.featuredImage === 'object' ? post.featuredImage?.url : null
 

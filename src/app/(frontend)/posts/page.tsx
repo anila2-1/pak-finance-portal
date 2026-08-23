@@ -14,10 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const latestPost = postsResult.docs[0]
 
-  const title = 'Latest Financial News'
+  const title = 'Hamariinfo Latest Updates'
 
   const description =
-    'Read the latest financial news from Pakistan including gold rates, currency rates, banking, taxes, prize bonds and KSE-100 updates.'
+    'Get Hamariinfo Latest Updates on Gold & Dollar rates, petrol prices, Prize Bonds, BISP & govt schemes, plus tech articles and daily news on HamariInfo.'
 
   // Payload returns featuredImage as an object because getPosts() uses depth: 2
   const featuredImage =
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ? absoluteUrl(featuredImage.url)
     : absoluteUrl('/opengraph-image.jpg')
 
-  const imageAlt = featuredImage?.alt || latestPost?.title || 'Latest Financial News - HamariInfo'
+  const imageAlt = featuredImage?.alt || latestPost?.title || 'Hamariinfo Latest Updates'
 
   const canonical = absoluteUrl('/posts')
 
@@ -39,10 +39,10 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical,
     },
 
-    robots: {
-      index: true,
-      follow: true,
-    },
+    // robots: {
+    //   index: true,
+    //   follow: true,
+    // },
 
     openGraph: {
       type: 'website',

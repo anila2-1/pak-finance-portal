@@ -291,7 +291,7 @@ export default function SinglePostClient({
                     </h2>
 
                     <p className="mt-1 text-sm text-[#667477]">
-                      More financial updates you may find useful.
+                      More information updates you may find useful.
                     </p>
                   </div>
 

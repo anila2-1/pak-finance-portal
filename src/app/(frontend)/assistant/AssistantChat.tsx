@@ -18,7 +18,7 @@ const quickQuestions = [
 const initialMessage: Message = {
   role: 'assistant',
   content:
-    "Hello! I'm your Pakistan Finance Assistant. Ask me about gold prices, USD/PKR, petrol, KSE-100 or Pakistan's financial market.",
+    "Hello! I'm your HamarInfo Assistant. Ask me about gold prices, USD/PKR, petrol, KSE-100 or Pakistan's financial market.",
 }
 
 export default function AssistantChat() {
@@ -127,7 +127,7 @@ export default function AssistantChat() {
               </div>
 
               <div>
-                <h2 className="text-sm font-bold text-[#172326]">Financial Assistant</h2>
+                <h2 className="text-sm font-bold text-[#172326]">HamarInfo Assistant</h2>
                 <div className="mt-0.5 flex items-center gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   <span className="text-[11px] font-medium text-emerald-600">
@@ -142,7 +142,7 @@ export default function AssistantChat() {
                 <path d="M12 2L9.19 8.63 2 9.24l5.46 4.47L6.82 21 12 17.27 17.18 21l-.64-7.36L22 9.24l-7.19-.61L12 2z" />
               </svg>
               <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#7c918d]">
-                Pakistan Finance Data
+                Pakistan HamariInfo Data
               </span>
             </div>
           </div>
@@ -288,7 +288,7 @@ export default function AssistantChat() {
             </p>
 
             <p className="hidden text-[9px] text-[#9aaba8] sm:block">
-              Financial information is for general informational purposes.
+              HamariInfo is for general informational purposes.
             </p>
           </div>
         </form>
