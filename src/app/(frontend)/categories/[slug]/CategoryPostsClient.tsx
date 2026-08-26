@@ -130,10 +130,7 @@ export default function CategoryPostsClient({
                     >
                       {/* Image */}
                       {featuredImage?.url ? (
-                        <Link
-                          href={`/posts/${post.slug}`}
-                          className="relative block overflow-hidden"
-                        >
+                        <Link href={`/${post.slug}`} className="relative block overflow-hidden">
                           <div className="aspect-[16/9] overflow-hidden bg-[#eef3f2]">
                             <Image
                               src={featuredImage.url}
@@ -154,7 +151,7 @@ export default function CategoryPostsClient({
                         </Link>
                       ) : (
                         <Link
-                          href={`/posts/${post.slug}`}
+                          href={`/${post.slug}`}
                           className="relative flex aspect-[16/9] items-center justify-center overflow-hidden bg-gradient-to-br from-[#eef8f6] to-[#f8faf9]"
                         >
                           <FolderOpen size={42} weight="duotone" className="text-[#b3dcd6]" />
@@ -177,7 +174,7 @@ export default function CategoryPostsClient({
 
                         {/* Title */}
                         <h3 className="line-clamp-2 text-lg font-bold leading-snug text-[#172326] transition-colors duration-300 group-hover:text-[#0f8f83]">
-                          <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+                          <Link href={`/${post.slug}`}>{post.title}</Link>
                         </h3>
 
                         {/* Excerpt */}
@@ -216,7 +213,7 @@ export default function CategoryPostsClient({
 
                             {/* Read Article */}
                             <Link
-                              href={`/posts/${post.slug}`}
+                              href={`/${post.slug}`}
                               className="group/read mt-4 flex items-center justify-between text-xs font-bold text-[#526163] transition-colors hover:text-[#0f8f83]"
                             >
                               <span>Read article</span>
