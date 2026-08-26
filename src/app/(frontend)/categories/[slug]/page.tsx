@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getCategoryBySlug } from '@/lib/getCategories'
 import { getPosts } from '@/lib/getPosts'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 import { absoluteUrl, SITE_NAME } from '@/lib/seo'
 
 import CategoryPostsClient from './CategoryPostsClient'
@@ -74,16 +75,24 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound()
   }
 
-  const [postsResult, siteSettings] = await Promise.all([
+  const [postsResult, siteSettings, categoriesResult] = await Promise.all([
     getPosts({
       limit: 12,
       page: 1,
       category: category.slug,
     }),
     getSiteSettings(),
+    getCategories({ limit: 50 }),
   ])
 
+  const categories = categoriesResult.docs
+
   return (
-    <CategoryPostsClient category={category} posts={postsResult.docs} siteSettings={siteSettings} />
+    <CategoryPostsClient
+      category={category}
+      posts={postsResult.docs}
+      siteSettings={siteSettings}
+      categories={categories}
+    />
   )
 }

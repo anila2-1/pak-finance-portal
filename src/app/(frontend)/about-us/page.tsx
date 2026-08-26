@@ -13,6 +13,7 @@ import {
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
@@ -54,10 +55,16 @@ export default async function AboutUsPage() {
     (siteSettings as any).siteDescription ||
     'Stay informed with real-time market rates, latest government scheme guides, tech updates, and daily informative articles.'
 
+  const [categoriesResult] = await Promise.all([
+    getCategories({ limit: 50 }),
+  ])
+
+  const categories = categoriesResult.docs
+
   return (
     <div className="min-h-screen bg-[#f4f8f76e] text-[#172326]">
       {/* HEADER */}
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       <main>
         {/* HERO */}

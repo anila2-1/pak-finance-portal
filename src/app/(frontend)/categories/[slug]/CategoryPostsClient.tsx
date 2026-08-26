@@ -17,16 +17,18 @@ interface CategoryPostsClientProps {
   category: any
   posts: any[]
   siteSettings?: any
+  categories?: any[]
 }
 
 export default function CategoryPostsClient({
   category,
   posts,
   siteSettings,
+  categories = [],
 }: CategoryPostsClientProps) {
   return (
     <>
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories} />
 
       <main className="min-h-screen bg-[#f4f8f76e]">
         {/* =====================================================

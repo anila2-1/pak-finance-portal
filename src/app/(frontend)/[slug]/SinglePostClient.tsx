@@ -12,17 +12,19 @@ interface SinglePostClientProps {
   post: any
   relatedPosts: any[]
   siteSettings?: any
+  categories?: any[]
 }
 
 export default function SinglePostClient({
   post,
   relatedPosts,
   siteSettings,
+  categories = [],
 }: SinglePostClientProps) {
   if (!post) {
     return (
       <>
-        <Header siteSettings={siteSettings} />
+        <Header siteSettings={siteSettings} categories={categories} />
 
         <main className="min-h-[50vh]">
           <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
@@ -68,7 +70,7 @@ export default function SinglePostClient({
 
   return (
     <>
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories} />
 
       <main>
         {/* =======================================================

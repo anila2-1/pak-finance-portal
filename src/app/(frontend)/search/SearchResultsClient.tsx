@@ -11,6 +11,7 @@ interface SearchResultsClientProps {
   totalPages: number
   currentPage: number
   siteSettings?: any
+  categories?: any[]
 }
 
 export default function SearchResultsClient({
@@ -20,6 +21,7 @@ export default function SearchResultsClient({
   totalPages,
   currentPage,
   siteSettings,
+  categories = [],
 }: SearchResultsClientProps) {
   const formatDate = (date?: string) => {
     if (!date) return ''
@@ -53,7 +55,7 @@ export default function SearchResultsClient({
 
   return (
     <div className="min-h-screen bg-[#f4f8f76e] text-[#172326]">
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories} />
 
       <main className="min-h-screen bg-[#f4f8f76e]">
         {/* =========================================

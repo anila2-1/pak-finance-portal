@@ -12,6 +12,7 @@ import {
 
 import { getPrizeBondDraws } from '@/lib/getPrizeBondDraws'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 import Header from './../components/HomePage/Header'
 import Footer from './../components/HomePage/Footer'
 
@@ -57,20 +58,22 @@ export default async function PrizeBondsPage({ searchParams }: PrizeBondsPagePro
   const denomination = params.denomination
   const page = Math.max(1, Number(params.page) || 1)
 
-  const [result, siteSettings] = await Promise.all([
+  const [result, siteSettings, categoriesResult] = await Promise.all([
     getPrizeBondDraws({
       limit: 10,
       page,
       denomination,
     }),
     getSiteSettings(),
+    getCategories({ limit: 50 }),
   ])
 
   const draws = result.docs
+  const categories = categoriesResult.docs
 
   return (
     <>
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       <main className="min-h-screen bg-[#f4f8f76e]">
         {/* =====================================================

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 
 import { getPosts } from '@/lib/getPosts'
+import { getCategories } from '@/lib/getCategories'
+import { getSiteSettings } from '@/lib/getSiteSettings'
 import { absoluteUrl, SITE_NAME } from '@/lib/seo'
 
-import PostsPage from './PostsPageClient'
+import PostsPageClient from './PostsPageClient'
 
 export async function generateMetadata(): Promise<Metadata> {
-  // Get the latest post so we can use its featured image for OG/Twitter
   const postsResult = await getPosts({
     limit: 1,
     page: 1,
@@ -19,7 +20,6 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     'Get Hamariinfo Latest Updates on Gold & Dollar rates, petrol prices, Prize Bonds, BISP & govt schemes, plus tech articles and daily news on HamariInfo.'
 
-  // Payload returns featuredImage as an object because getPosts() uses depth: 2
   const featuredImage =
     latestPost && typeof latestPost.featuredImage === 'object' ? latestPost.featuredImage : null
 
@@ -38,11 +38,6 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical,
     },
-
-    // robots: {
-    //   index: true,
-    //   follow: true,
-    // },
 
     openGraph: {
       type: 'website',
@@ -70,4 +65,46 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default PostsPage
+interface PostsPageProps {
+  searchParams: Promise<{
+    q?: string
+    page?: string
+    category?: string
+  }>
+}
+
+export default async function PostsPage({ searchParams }: PostsPageProps) {
+  const params = await searchParams
+
+  const query = params.q?.trim() || ''
+  const page = Math.max(1, Number(params.page) || 1)
+  const category = params.category
+
+  const [postsResult, categoriesResult, siteSettings] = await Promise.all([
+    getPosts({
+      search: query,
+      page,
+      limit: 12,
+      category,
+    }),
+    getCategories({
+      limit: 50,
+    }),
+    getSiteSettings(),
+  ])
+
+  const posts = postsResult.docs
+  const categories = categoriesResult.docs
+
+  return (
+    <PostsPageClient
+      posts={posts}
+      query={query}
+      totalDocs={postsResult.totalDocs}
+      totalPages={postsResult.totalPages}
+      currentPage={postsResult.page || 1}
+      siteSettings={siteSettings}
+      categories={categories}
+    />
+  )
+}

@@ -8,50 +8,29 @@ import {
   User,
 } from '@phosphor-icons/react/dist/ssr'
 
-import { getPosts } from '@/lib/getPosts'
-import { getCategories } from '@/lib/getCategories'
-import { getSiteSettings } from '@/lib/getSiteSettings'
-
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
 
 interface PostsPageProps {
-  searchParams: Promise<{
-    page?: string
-    category?: string
-  }>
+  posts: any[]
+  query: string
+  totalDocs: number
+  totalPages: number
+  currentPage: number
+  siteSettings?: any
+  categories?: any[]
 }
 
-interface CategoryItem {
-  id: string | number
-  slug: string
-  name: string
-}
-
-export default async function PostsPage({ searchParams }: PostsPageProps) {
-  const params = await searchParams
-
-  const page = Math.max(1, Number(params.page) || 1)
-  const category = params.category
-
-  const [postsResult, categoriesResult, siteSettings] = await Promise.all([
-    getPosts({
-      limit: 12,
-      page,
-      category,
-    }),
-
-    getCategories({
-      limit: 50,
-    }),
-
-    getSiteSettings(),
-  ])
-
-  const posts = postsResult.docs
-  const categories = categoriesResult.docs as CategoryItem[]
-
-  const activeCategory = categories.find((item) => item.slug === category)
+export default async function PostsPage({
+  posts,
+  query,
+  totalDocs,
+  totalPages,
+  currentPage,
+  siteSettings,
+  categories,
+}: PostsPageProps) {
+  const activeCategory = categories?.find((item: any) => item.slug === query)
 
   return (
     <div className="min-h-screen bg-[#f4f8f76e] text-[#172326]">
@@ -59,7 +38,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
           HEADER
       ====================================================== */}
 
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       {/* =====================================================
           POSTS PAGE
@@ -105,7 +84,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
               <h2 className="mt-5 text-xl font-bold text-[#172326]">No posts found</h2>
 
               <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#71817f]">
-                {category
+                {activeCategory
                   ? 'There are currently no published posts available in the selected category.'
                   : 'There are currently no published HamariInfo posts available.'}
               </p>
@@ -227,48 +206,8 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
               })}
             </div>
           )}
-
-          {/* PAGINATION */}
-          {postsResult.totalPages > 1 && (
-            <nav className="mt-10 flex items-center justify-center">
-              <div className="flex items-center gap-2 rounded-2xl border border-[#dceae8] bg-white p-2 shadow-sm">
-                {postsResult.hasPrevPage ? (
-                  <Link
-                    href={`/posts?page=${postsResult.prevPage}${
-                      category ? `&category=${category}` : ''
-                    }`}
-                    className="flex h-10 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-[#647477] hover:bg-[#eaf8f5] hover:text-[#0f8f83]"
-                  >
-                    <ArrowLeft size={15} />
-                    Previous
-                  </Link>
-                ) : (
-                  <span className="px-3 text-xs text-[#c1ccca]">Previous</span>
-                )}
-
-                <div className="flex h-10 items-center rounded-xl bg-[#eaf8f5] px-4 text-xs font-bold text-[#0f8f83]">
-                  {postsResult.page} / {postsResult.totalPages}
-                </div>
-
-                {postsResult.hasNextPage ? (
-                  <Link
-                    href={`/posts?page=${postsResult.nextPage}${
-                      category ? `&category=${category}` : ''
-                    }`}
-                    className="flex h-10 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-[#647477] hover:bg-[#eaf8f5] hover:text-[#0f8f83]"
-                  >
-                    Next
-                    <ArrowRight size={15} />
-                  </Link>
-                ) : (
-                  <span className="px-3 text-xs text-[#c1ccca]">Next</span>
-                )}
-              </div>
-            </nav>
-          )}
         </section>
       </main>
-
       {/* =====================================================
           FOOTER
       ====================================================== */}

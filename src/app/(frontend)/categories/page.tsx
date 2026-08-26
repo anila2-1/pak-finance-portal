@@ -55,7 +55,7 @@ export default async function CategoriesPage() {
       {/* =========================================================
           HEADER
       ========================================================= */}
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       {/* =========================================================
           PAGE CONTENT

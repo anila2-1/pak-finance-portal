@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 import { ChatCircle, EnvelopeSimple, PaperPlaneTilt } from '@phosphor-icons/react/dist/ssr'
 
 export const metadata: Metadata = {
@@ -14,9 +15,15 @@ export default async function ContactPage() {
   const siteSettings = (await getSiteSettings()) as { siteName?: string } | null
   const siteName = siteSettings?.siteName || 'HamariInfo'
 
+  const [categoriesResult] = await Promise.all([
+    getCategories({ limit: 50 }),
+  ])
+
+  const categories = categoriesResult.docs
+
   return (
     <div className="min-h-screen bg-[#f4f8f76e]">
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       <main>
         {/* HERO */}

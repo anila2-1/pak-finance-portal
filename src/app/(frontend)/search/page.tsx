@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { getPosts } from '@/lib/getPosts'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 import SearchResultsClient from './SearchResultsClient'
 
 export const metadata: Metadata = {
@@ -22,14 +23,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = params.q?.trim() || ''
   const page = Number(params.page) || 1
 
-  const [posts, siteSettings] = await Promise.all([
+  const [posts, siteSettings, categoriesResult] = await Promise.all([
     getPosts({
       search: query,
       page,
       limit: 12,
     }),
     getSiteSettings(),
+    getCategories({ limit: 50 }),
   ])
+
+  const categories = categoriesResult.docs
 
   return (
     <SearchResultsClient
@@ -39,6 +43,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       totalPages={posts.totalPages}
       currentPage={posts.page || 1}
       siteSettings={siteSettings}
+      categories={categories}
     />
   )
 }

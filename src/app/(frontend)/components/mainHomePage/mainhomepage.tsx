@@ -33,7 +33,7 @@ export default function MainHomePage({
       {/* =====================================================
           HEADER
           ===================================================== */}
-      <Header siteSettings={siteSettings} />
+      <Header siteSettings={siteSettings} categories={categories || []} />
 
       <main>
         {/* =====================================================

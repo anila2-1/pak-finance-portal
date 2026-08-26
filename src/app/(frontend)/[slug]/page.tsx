@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { getPostBySlug, getPosts } from '@/lib/getPosts'
 import { getSiteSettings } from '@/lib/getSiteSettings'
+import { getCategories } from '@/lib/getCategories'
 import { absoluteUrl, SITE_NAME } from '@/lib/seo'
 import SinglePostClient from './SinglePostClient'
 
@@ -85,9 +86,19 @@ export default async function Page({ params }: PageProps) {
 
   // Post not found
   if (!post) {
-    const [siteSettings] = await Promise.all([getSiteSettings()])
+    const [siteSettings, categoriesResult] = await Promise.all([
+      getSiteSettings(),
+      getCategories({ limit: 50 }),
+    ])
 
-    return <SinglePostClient post={null} relatedPosts={[]} siteSettings={siteSettings} />
+    return (
+      <SinglePostClient
+        post={null}
+        relatedPosts={[]}
+        siteSettings={siteSettings}
+        categories={categoriesResult.docs}
+      />
+    )
   }
 
   /*
@@ -114,7 +125,17 @@ export default async function Page({ params }: PageProps) {
       .slice(0, 4)
   }
 
-  const [siteSettings] = await Promise.all([getSiteSettings()])
+  const [siteSettings, categoriesResult] = await Promise.all([
+    getSiteSettings(),
+    getCategories({ limit: 50 }),
+  ])
 
-  return <SinglePostClient post={post} relatedPosts={relatedPosts} siteSettings={siteSettings} />
+  return (
+    <SinglePostClient
+      post={post}
+      relatedPosts={relatedPosts}
+      siteSettings={siteSettings}
+      categories={categoriesResult.docs}
+    />
+  )
 }
