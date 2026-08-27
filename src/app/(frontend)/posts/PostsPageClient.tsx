@@ -10,10 +10,12 @@ import {
 
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
+import Pagination from '../components/Pagination'
 
 interface PostsPageProps {
   posts: any[]
   query: string
+  category?: string
   totalDocs: number
   totalPages: number
   currentPage: number
@@ -24,13 +26,14 @@ interface PostsPageProps {
 export default async function PostsPage({
   posts,
   query,
+  category,
   totalDocs,
   totalPages,
   currentPage,
   siteSettings,
   categories,
 }: PostsPageProps) {
-  const activeCategory = categories?.find((item: any) => item.slug === query)
+  const activeCategory = categories?.find((item: any) => item.slug === category)
 
   return (
     <div className="min-h-screen bg-[#f4f8f76e] text-[#172326]">
@@ -206,6 +209,14 @@ export default async function PostsPage({
               })}
             </div>
           )}
+
+          <Pagination
+            pathname="/posts"
+            currentPage={currentPage}
+            totalPages={totalPages}
+            params={{ q: query || undefined, category: category || undefined }}
+            label="Posts pagination"
+          />
         </section>
       </main>
       {/* =====================================================

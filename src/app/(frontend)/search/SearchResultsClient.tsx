@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Header from '../components/HomePage/Header'
 import Footer from '../components/HomePage/Footer'
+import Pagination from '../components/Pagination'
 interface SearchResultsClientProps {
   posts: any[]
   query: string
@@ -249,34 +250,13 @@ export default function SearchResultsClient({
                 })}
               </div>
 
-              {/* =====================================
-                PAGINATION
-            ===================================== */}
-              {totalPages > 1 && (
-                <div className="mt-10 flex items-center justify-center gap-2">
-                  {currentPage > 1 && (
-                    <Link
-                      href={`/search?q=${encodeURIComponent(query)}&page=${currentPage - 1}`}
-                      className="rounded-lg border border-[#dce9e7] bg-white px-4 py-2 text-sm font-semibold text-[#526865] transition hover:border-[#0f8f83] hover:text-[#0f8f83]"
-                    >
-                      ← Previous
-                    </Link>
-                  )}
-
-                  <span className="rounded-lg bg-[#172326] px-4 py-2 text-sm font-semibold text-white">
-                    {currentPage}
-                  </span>
-
-                  {currentPage < totalPages && (
-                    <Link
-                      href={`/search?q=${encodeURIComponent(query)}&page=${currentPage + 1}`}
-                      className="rounded-lg border border-[#dce9e7] bg-white px-4 py-2 text-sm font-semibold text-[#526865] transition hover:border-[#0f8f83] hover:text-[#0f8f83]"
-                    >
-                      Next →
-                    </Link>
-                  )}
-                </div>
-              )}
+              <Pagination
+                pathname="/search"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                params={{ q: query || undefined }}
+                label="Search results pagination"
+              />
             </>
           )}
         </section>

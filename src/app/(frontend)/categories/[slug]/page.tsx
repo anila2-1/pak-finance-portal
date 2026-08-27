@@ -13,6 +13,9 @@ interface PageProps {
   params: Promise<{
     slug: string
   }>
+  searchParams: Promise<{
+    page?: string
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -66,8 +69,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
   const { slug } = await params
+  const { page: pageParam } = await searchParams
+  const page = Math.max(1, Number(pageParam) || 1)
 
   const category = await getCategoryBySlug(slug)
 
@@ -78,7 +83,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const [postsResult, siteSettings, categoriesResult] = await Promise.all([
     getPosts({
       limit: 12,
-      page: 1,
+      page,
       category: category.slug,
     }),
     getSiteSettings(),
@@ -91,6 +96,8 @@ export default async function CategoryPage({ params }: PageProps) {
     <CategoryPostsClient
       category={category}
       posts={postsResult.docs}
+      totalPages={postsResult.totalPages}
+      currentPage={postsResult.page || 1}
       siteSettings={siteSettings}
       categories={categories}
     />

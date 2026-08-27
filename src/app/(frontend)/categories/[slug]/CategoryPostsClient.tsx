@@ -2,20 +2,17 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  CalendarBlank,
-  FolderOpen,
-  User,
-} from '@phosphor-icons/react/dist/ssr'
+import { ArrowLeft, ArrowUpRight, CalendarBlank, FolderOpen, User } from '@phosphor-icons/react'
 
 import Header from './../../components/HomePage/Header'
 import Footer from './../../components/HomePage/Footer'
+import Pagination from './../../components/Pagination'
 
 interface CategoryPostsClientProps {
   category: any
   posts: any[]
+  totalPages: number
+  currentPage: number
   siteSettings?: any
   categories?: any[]
 }
@@ -23,6 +20,8 @@ interface CategoryPostsClientProps {
 export default function CategoryPostsClient({
   category,
   posts,
+  totalPages,
+  currentPage,
   siteSettings,
   categories = [],
 }: CategoryPostsClientProps) {
@@ -234,6 +233,13 @@ export default function CategoryPostsClient({
                 })}
               </div>
             )}
+
+            <Pagination
+              pathname={`/categories/${category.slug}`}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              label={`${category.name} pagination`}
+            />
 
             {/* =================================================
                 BACK TO CATEGORIES

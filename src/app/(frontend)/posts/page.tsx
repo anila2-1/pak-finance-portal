@@ -100,6 +100,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
     <PostsPageClient
       posts={posts}
       query={query}
+      category={category}
       totalDocs={postsResult.totalDocs}
       totalPages={postsResult.totalPages}
       currentPage={postsResult.page || 1}

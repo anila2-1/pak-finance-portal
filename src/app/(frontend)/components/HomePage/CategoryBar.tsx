@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
+import { ArrowUpRight } from '@phosphor-icons/react'
 
 interface CategoryBarProps {
   categories: any[]

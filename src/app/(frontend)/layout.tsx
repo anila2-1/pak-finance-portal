@@ -106,7 +106,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
       <body className="font-sans bg-[#f5f5f5]">
         <TopUpdatesBar updates={topUpdates} />
-        <main>{children}</main>
+        {children}
         <ScrollToTop />
       </body>
     </html>

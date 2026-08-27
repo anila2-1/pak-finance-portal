@@ -11,7 +11,7 @@ import {
   TelegramLogo,
   YoutubeLogo,
   WhatsappLogo,
-} from '@phosphor-icons/react/dist/ssr'
+} from '@phosphor-icons/react'
 
 interface FooterProps {
   siteSettings?: any

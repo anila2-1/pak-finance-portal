@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, ArrowUpRight, CalendarBlank, User } from '@phosphor-icons/react/dist/ssr'
+import { ArrowLeft, ArrowUpRight, CalendarBlank, User } from '@phosphor-icons/react'
 
 import RichText from '@/components/RichText'
 import Header from './../components/HomePage/Header'
