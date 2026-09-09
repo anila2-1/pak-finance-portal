@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { notifyGoogleIndexing } from './../lib/google/indexing'
+
 import {
   lexicalEditor,
   HeadingFeature,
@@ -52,14 +54,38 @@ export const Posts: CollectionConfig = {
     maxPerDoc: 20,
   },
 
-  // Auto set publishedAt hook
   hooks: {
     beforeChange: [
       ({ data }) => {
         if (data._status === 'published' && !data.publishedAt) {
           data.publishedAt = new Date().toISOString()
         }
+
         return data
+      },
+    ],
+
+    afterChange: [
+      async ({ doc, operation }) => {
+        // Only notify Google when a post is published
+        if (
+          (operation === 'create' || operation === 'update') &&
+          doc._status === 'published' &&
+          typeof doc.slug === 'string' &&
+          doc.slug.trim() !== ''
+        ) {
+          const siteUrl = process.env.SITE_URL || 'https://hamariinfo.com'
+
+          const url = `${siteUrl}/${doc.slug}`
+
+          try {
+            await notifyGoogleIndexing(url)
+
+            console.log(`✅ Google Indexing notification sent successfully: ${url}`)
+          } catch (error) {
+            console.error(`❌ Failed to notify Google about ${url}:`, error)
+          }
+        }
       },
     ],
   },

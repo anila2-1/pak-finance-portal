@@ -1,8 +1,4 @@
-//This function allows you to cache the results of expensive operations, like database queries,
-// and reuse them across multiple requests.
-
 import { unstable_cache } from 'next/cache'
-
 import { getPayloadClient } from './payload'
 
 export const getDailyRates = unstable_cache(

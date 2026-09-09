@@ -203,18 +203,22 @@ export interface Category {
 export interface DailyRate {
   id: string;
   /**
-   * The date these rates apply to.
+   * Date and time these rates apply to.
    */
   date: string;
   gold: {
     /**
-     * Price in PKR per tola.
+     * 24K gold price in PKR per tola.
      */
     gold24k: number;
     /**
-     * Price in PKR per tola.
+     * 22K gold price in PKR per tola.
      */
     gold22k: number;
+    /**
+     * 21K gold price in PKR per tola.
+     */
+    gold21k: number;
   };
   currency: {
     /**
@@ -225,27 +229,51 @@ export interface DailyRate {
      * PKR value for 1 USD selling rate.
      */
     usdSelling: number;
+    /**
+     * PKR value for 1 UAE Dirham (AED).
+     */
+    aedRate: number;
+    /**
+     * PKR value for 1 Saudi Riyal (SAR).
+     */
+    sarRate: number;
   };
   fuel: {
     /**
      * Petrol price in PKR per litre.
      */
     petrol: number;
+    /**
+     * High Speed Diesel price in PKR per litre.
+     */
+    highSpeedDiesel: number;
+    /**
+     * Kerosene Oil price in PKR per litre.
+     */
+    keroseneOil: number;
+    /**
+     * Light Diesel Oil price in PKR per litre.
+     */
+    lightDieselOil: number;
   };
-  stock?: {
+  silver: {
     /**
-     * Current points (e.g. 78500)
+     * Silver price in PKR per tola.
      */
-    kse100Index?: number | null;
+    silverPerTola: number;
     /**
-     * Point gain/loss (e.g. +350 or -120)
+     * Silver price in PKR per 10 grams.
      */
-    kse100Change?: number | null;
+    silverPer10g: number;
   };
   /**
-   * Where these rates came from.
+   * Source of these rates, for example official market source or notification.
    */
   source?: string | null;
+  /**
+   * The date and time when these rates were last manually verified.
+   */
+  lastVerifiedAt?: string | null;
   /**
    * Optional notes about this rate update.
    */
@@ -505,25 +533,32 @@ export interface DailyRatesSelect<T extends boolean = true> {
     | {
         gold24k?: T;
         gold22k?: T;
+        gold21k?: T;
       };
   currency?:
     | T
     | {
         usdBuying?: T;
         usdSelling?: T;
+        aedRate?: T;
+        sarRate?: T;
       };
   fuel?:
     | T
     | {
         petrol?: T;
+        highSpeedDiesel?: T;
+        keroseneOil?: T;
+        lightDieselOil?: T;
       };
-  stock?:
+  silver?:
     | T
     | {
-        kse100Index?: T;
-        kse100Change?: T;
+        silverPerTola?: T;
+        silverPer10g?: T;
       };
   source?: T;
+  lastVerifiedAt?: T;
   notes?: T;
   updatedAt?: T;
   createdAt?: T;

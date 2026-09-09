@@ -10,10 +10,7 @@ export interface TopUpdateItem {
   source: 'cms' | 'auto'
 }
 
-function isWithinDateRange(item: {
-  startDate?: string | null
-  endDate?: string | null
-}): boolean {
+function isWithinDateRange(item: { startDate?: string | null; endDate?: string | null }): boolean {
   const now = new Date()
   const start = item.startDate ? new Date(`${item.startDate}T00:00:01`) : null
   const end = item.endDate ? new Date(`${item.endDate}T23:59:59.999`) : null
@@ -120,16 +117,6 @@ async function generateAutoUpdates(): Promise<TopUpdateItem[]> {
       headline: `Petrol price updated to Rs. ${rates.fuel.petrol.toLocaleString('en-PK')} per litre`,
       link: '/categories/petrol',
       priority: 3,
-      source: 'auto',
-    })
-  }
-
-  if (typeof rates.stock?.kse100Index === 'number' && rates.stock.kse100Index > 0) {
-    updates.push({
-      label: 'UPDATED',
-      headline: `KSE-100 index is at ${rates.stock.kse100Index.toLocaleString('en-PK')} points`,
-      link: '/categories/stock-market',
-      priority: 2,
       source: 'auto',
     })
   }
