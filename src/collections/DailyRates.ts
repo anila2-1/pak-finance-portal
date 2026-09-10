@@ -283,6 +283,17 @@ export const DailyRates: CollectionConfig = {
             description: 'Silver price in PKR per 10 grams.',
           },
         },
+        {
+          name: 'silverPerKg',
+          label: 'Silver Per Kg',
+          type: 'number',
+          required: true,
+          min: 0,
+
+          admin: {
+            description: 'Silver price in PKR per kilogram.',
+          },
+        },
       ],
     },
 

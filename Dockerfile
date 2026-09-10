@@ -5,7 +5,7 @@ FROM node:20
 WORKDIR /app
 
 # Copy package.json and pnpm-lock.yaml first (for caching installs)
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
 # Install pnpm globally
 RUN npm install -g pnpm
@@ -15,9 +15,6 @@ RUN pnpm install
 
 # Copy the rest of the project
 COPY . .
-
-# Build the project
-RUN pnpm build
 
 # Expose Payload's default port
 EXPOSE 3000

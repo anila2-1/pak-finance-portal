@@ -265,6 +265,10 @@ export interface DailyRate {
      * Silver price in PKR per 10 grams.
      */
     silverPer10g: number;
+    /**
+     * Silver price in PKR per kilogram.
+     */
+    silverPerKg: number;
   };
   /**
    * Source of these rates, for example official market source or notification.
@@ -556,6 +560,7 @@ export interface DailyRatesSelect<T extends boolean = true> {
     | {
         silverPerTola?: T;
         silverPer10g?: T;
+        silverPerKg?: T;
       };
   source?: T;
   lastVerifiedAt?: T;
