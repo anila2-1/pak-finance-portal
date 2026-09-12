@@ -79,9 +79,9 @@ export const Posts: CollectionConfig = {
           const url = `${siteUrl}/${doc.slug}`
 
           try {
-            await notifyGoogleIndexing(url)
+            const submission = await notifyGoogleIndexing(url, 'URL_UPDATED')
 
-            console.log(`✅ Google Indexing notification sent successfully: ${url}`)
+            console.log(`✅ Google accepted indexing notification: ${url}`, submission)
           } catch (error) {
             console.error(`❌ Failed to notify Google about ${url}:`, error)
           }

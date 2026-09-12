@@ -30,6 +30,15 @@ export default buildConfig({
 
     components: {
       actions: ['src/components/payload/ThemeToggle.tsx'],
+
+      afterNavLinks: ['src/components/payload/IndexingNavLink.tsx'],
+
+      views: {
+        indexing: {
+          Component: 'src/components/payload/IndexingTool.tsx',
+          path: '/indexing',
+        },
+      },
     },
 
     importMap: {

@@ -30,6 +30,8 @@ import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { default as default_258643e176e5cc41503305bf694f22dc } from 'src/components/payload/AdminAvatar.tsx'
 import { default as default_b487372bc0e5b906b8edffea62f573e7 } from 'src/components/payload/ThemeToggle.tsx'
+import { default as default_fb18abfed25cb12362ce014bf7eb0dcb } from 'src/components/payload/IndexingNavLink.tsx'
+import { default as default_4c2209e82a2f7a36c7b38948ac15945f } from 'src/components/payload/IndexingTool.tsx'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -66,5 +68,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "src/components/payload/AdminAvatar.tsx#default": default_258643e176e5cc41503305bf694f22dc,
   "src/components/payload/ThemeToggle.tsx#default": default_b487372bc0e5b906b8edffea62f573e7,
+  "src/components/payload/IndexingNavLink.tsx#default": default_fb18abfed25cb12362ce014bf7eb0dcb,
+  "src/components/payload/IndexingTool.tsx#default": default_4c2209e82a2f7a36c7b38948ac15945f,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
